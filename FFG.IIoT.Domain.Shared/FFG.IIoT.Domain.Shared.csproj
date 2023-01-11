@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>IIoT.Domain.Shared</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="InTheHand.Net.Bluetooth" Version="4.0.33.1" />
+		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+		<PackageReference Include="MQTTnet" Version="4.1.4.563" />
+		<PackageReference Include="NModbus" Version="3.0.72" />
+		<PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.50" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="MongoDB.Driver" />
+		<Using Include="Serilog" />
+		<Using Include="Serilog.Events" />
+		<Using Include="Volo.Abp.Localization" />
+		<Using Include="Volo.Abp.Modularity" />
+		<Using Include="Volo.Abp.VirtualFileSystem" />
+		<Using Include="YamlDotNet.Serialization" />
+		<Using Include="YamlDotNet.Serialization.NamingConventions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Net" />
+		<Using Include="System.Net.Sockets" />
+		<Using Include="System.Reflection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Domain.Shared.Functions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Infrastructure.Facilities" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Languages\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\FFG.IIoT.Infrastructure\FFG.IIoT.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

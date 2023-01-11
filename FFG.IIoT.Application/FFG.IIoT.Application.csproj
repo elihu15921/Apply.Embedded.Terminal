@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>IIoT.Application</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FFG.IIoT.Application.Contract\FFG.IIoT.Application.Contract.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Microsoft.Extensions.Hosting" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Buffers" />
+		<Using Include="System.Net" />
+		<Using Include="System.Net.Sockets" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Application.Contract" />
+		<Using Include="IIoT.Application.Runners" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Domain.Shared.Summits" />
+		<Using Include="IIoT.Domain.Shared.Functions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Infrastructure.Facilities" />
+		<Using Include="IIoT.Infrastructure.Sturdies" />
+		<Using Include="IIoT.Infrastructure.Sturdies.SturdyFoot" Static="true" />
+	</ItemGroup>
+
+</Project>

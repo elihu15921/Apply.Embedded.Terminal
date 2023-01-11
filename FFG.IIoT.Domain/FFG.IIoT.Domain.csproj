@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>IIoT.Domain</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\FFG.IIoT.Domain.Shared\FFG.IIoT.Domain.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="MongoDB.Driver" />
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp.Modularity" />
+		<Using Include="YamlDotNet.Serialization" />
+		<Using Include="YamlDotNet.Serialization.NamingConventions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.Configuration" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Buffers" />
+		<Using Include="System.Net" />
+		<Using Include="System.Net.Sockets" />
+		<Using Include="System.Security.Cryptography" />
+		<Using Include="System.Text" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Domain.Summits" />
+		<Using Include="IIoT.Domain.Functions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Domain.Shared" />
+		<Using Include="IIoT.Domain.Shared.Functions" />
+		<Using Include="IIoT.Domain.Shared.Summits" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Infrastructure.Facilities" />
+		<Using Include="IIoT.Infrastructure.Sturdies" />
+	</ItemGroup>
+
+</Project>

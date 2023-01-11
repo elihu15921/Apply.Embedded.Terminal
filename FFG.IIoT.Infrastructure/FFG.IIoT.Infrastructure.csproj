@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>IIoT.Infrastructure</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+		<PackageReference Include="Volo.Abp.AspNetCore" Version="7.0.0" />
+		<PackageReference Include="Volo.Abp.Autofac" Version="7.0.0" />
+		<PackageReference Include="Volo.Abp.Core" Version="7.0.0" />
+		<PackageReference Include="YamlDotNet" Version="12.3.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="YamlDotNet.RepresentationModel" />
+		<Using Include="YamlDotNet.Serialization" />
+		<Using Include="YamlDotNet.Serialization.NamingConventions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.Configuration" />
+		<Using Include="Microsoft.Extensions.FileProviders" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Net" />
+		<Using Include="System.Reflection" />
+		<Using Include="System.Security.Cryptography" />
+		<Using Include="System.Text" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Infrastructure.Facilities" />
+	</ItemGroup>
+
+</Project>
