@@ -40,6 +40,8 @@
 
 	<ItemGroup>
 		<Using Include="IIoT.Infrastructure.Facilities" />
+		<Using Include="IIoT.Infrastructure.Utilities" />
+		<Using Include="IIoT.Infrastructure.Utilities.NeutralUtility" Static="true" />
 	</ItemGroup>
 
 </Project>

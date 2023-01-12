@@ -1,8 +1,8 @@
-﻿namespace IIoT.Domain.Shared.Summits;
-public interface IMitsubishiSummit
+﻿namespace IIoT.Domain.Shared.Hosts;
+public interface IMitsubishiHost
 {
     const int Port = 30000;
-    ValueTask InfrastructureAsync(int serialNo, int length, DeviceCode code);
+    ValueTask CreateAsync(IPAddress address);
     enum DeviceCode
     {
         [Description("90")] M,
@@ -51,5 +51,4 @@ public interface IMitsubishiSummit
         public required string StartPoint { get; init; }
         public required string Quantity { get; init; }
     }
-    Socket Warship { get; set; }
 }

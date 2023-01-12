@@ -22,6 +22,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\FFG.IIoT.Infrastructure\FFG.IIoT.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Include="MongoDB.Driver" />
 		<Using Include="Serilog" />
 		<Using Include="Serilog.Events" />
@@ -37,6 +41,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="System.Buffers" />
 		<Using Include="System.ComponentModel" />
 		<Using Include="System.Net" />
 		<Using Include="System.Net.Sockets" />
@@ -45,18 +50,17 @@
 
 	<ItemGroup>
 		<Using Include="IIoT.Domain.Shared.Functions" />
+		<Using Include="IIoT.Domain.Shared.Functions.IBasicFunction" Static="true" />
+		<Using Include="IIoT.Domain.Shared.Hosts" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Infrastructure.Facilities" />
+		<Using Include="IIoT.Infrastructure.Utilities" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Languages\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\FFG.IIoT.Infrastructure\FFG.IIoT.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

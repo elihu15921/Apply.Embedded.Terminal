@@ -18,7 +18,11 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FFG.IIoT.Application\FFG.IIoT.Application.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,6 +43,7 @@
 
 	<ItemGroup>
 		<Using Include="IIoT.Domain.Shared.Functions" />
+		<Using Include="IIoT.Domain.Shared.Functions.IBasicFunction" Static="true" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -49,10 +54,6 @@
 	<ItemGroup>
 		<Folder Include="Apis\" />
 		<Folder Include="Services\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\FFG.IIoT.Application\FFG.IIoT.Application.csproj" />
 	</ItemGroup>
 
 </Project>

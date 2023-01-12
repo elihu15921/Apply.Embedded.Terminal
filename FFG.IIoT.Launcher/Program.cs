@@ -4,17 +4,15 @@ try
     builder.Host.ConfigureHostOptions(item =>
     {
         item.ShutdownTimeout = TimeSpan.FromMinutes(10);
-    }).AddAppSettingsSecretsJson().UseAutofac().UseSystemd().UseSerilog((context, services, configuration) =>
-    configuration.ReadFrom.Services(services).Enrich.FromLogContext().WriteTo.File(IBasicFunction.LogPath,
-    rollingInterval: RollingInterval.Hour, retainedFileCountLimit: IBasicFunction.RetainedFileCount));
+    }).AddAppSettingsSecretsJson().UseAutofac().UseSerilog().UseSystemd();
     builder.WebHost.UseKestrel(item => item.ListenAnyIP(17770));
     builder.Services.AddRazorPages();
-    builder.Services.AddServerSideBlazor();
     builder.Services.AddControllers();
+    builder.Services.AddServerSideBlazor();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(options =>
     {
-        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Open API - V1", Version = "v1" });
+        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Open API - v1", Version = "v1" });
     });
     await builder.AddApplicationAsync<AppModule>();
     var apply = builder.Build();
@@ -43,7 +41,7 @@ try
 }
 catch (Exception e)
 {
-    Log.Fatal("[{0}] {1}", nameof(Program), new
+    Log.Fatal(HistoryFoot.Title, nameof(Program), new
     {
         e.Message,
         e.StackTrace

@@ -11,20 +11,20 @@ internal sealed class BasicFunction : IBasicFunction
         }
         catch (Exception e)
         {
-            Log.Fatal("[{0}] {1}", nameof(BasicFunction), new
+            Log.Fatal(HistoryFoot.Title, nameof(BasicFunction).Joint(nameof(InitialProfile)), new
             {
                 e.Message,
                 e.StackTrace
             });
         }
     }
-    public string ConvertHEX(in int quantity, in IBasicFunction.WordLength length)
+    public string ConvertHEX(in int quantity, in WordLength length)
     {
         var count = 1;
         string before = string.Empty, middle = string.Empty, after = string.Empty, temp = string.Empty;
         switch (length)
         {
-            case IBasicFunction.WordLength.Two:
+            case WordLength.Two:
                 {
                     var source = quantity.ToString("X4");
                     if (source.Length % 2 is not 0) source = source.PadRight(source.Length + (2 - source.Length % 2));
@@ -39,7 +39,7 @@ internal sealed class BasicFunction : IBasicFunction
                     return $"{before}{middle}";
                 }
 
-            case IBasicFunction.WordLength.Three:
+            case WordLength.Three:
                 {
                     var source = quantity.ToString("X6");
                     if (source.Length % 2 is not 0) source = source.PadRight(source.Length + (2 - source.Length % 2));
@@ -58,4 +58,5 @@ internal sealed class BasicFunction : IBasicFunction
         return string.Empty;
     }
     public MainProfile? Profile { get; set; }
+    public ArrayPool<byte> BytePool { get; } = ArrayPool<byte>.Shared;
 }

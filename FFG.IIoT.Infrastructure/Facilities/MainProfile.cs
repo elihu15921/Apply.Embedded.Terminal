@@ -10,6 +10,7 @@ public sealed class MainProfile
     }
     public sealed class TextControl
     {
+        [YamlMember(ApplyNamingConventions = false)] public ProcessUtility.HostType Type { get; init; } = ProcessUtility.HostType.Mitsubishi;
         [YamlMember(ApplyNamingConventions = false)] public string Address { get; init; } = IPAddress.Loopback.ToString();
     }
 }

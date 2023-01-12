@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\FFG.IIoT.Domain\FFG.IIoT.Domain.csproj" />
+		<ProjectReference Include="..\FFG.IIoT.Domain\FFG.IIoT.Domain.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -24,6 +24,7 @@
 
 	<ItemGroup>
 		<Using Include="IIoT.Domain" />
+		<Using Include="IIoT.Domain.Shared.Functions.IBasicFunction" Static="true" />
 	</ItemGroup>
 
 </Project>

@@ -10,27 +10,26 @@ internal sealed class HostRunner : BackgroundService
                 if (Basic.Profile is not null)
                 {
                     var address = IPAddress.Parse(Basic.Profile.Control.Address);
-
-                    Mitsubishi.Warship = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    await Mitsubishi.Warship.ConnectAsync(new IPEndPoint(address, IMitsubishiSummit.Port));
-                    await Mitsubishi.InfrastructureAsync(150, 4, IMitsubishiSummit.DeviceCode.D);
+                    switch (Basic.Profile.Control.Type)
                     {
-                        Mitsubishi.Warship.Shutdown(SocketShutdown.Both);
-                        Mitsubishi.Warship.Close();
-                        Mitsubishi.Warship.Dispose();
+                        case ProcessUtility.HostType.Mitsubishi:
+                            await Host.Mitsubishi.CreateAsync(address);
+                            break;
                     }
                 }
+                if (Histories.Any()) Histories.Clear();
             }
             catch (Exception e)
             {
-                Log.Fatal("[{0}] {1}", nameof(HostRunner), new
+                if (!Histories.Contains(e.Message))
                 {
-                    e.Message,
-                    e.StackTrace
-                });
+                    Histories.Add(e.Message);
+                    Log.Fatal(HistoryFoot.Title, nameof(HostRunner), new { e.Message });
+                }
             }
         }
     }
+    internal required List<string> Histories { get; init; } = new();
     public required IBasicFunction Basic { get; init; }
-    public required IMitsubishiSummit Mitsubishi { get; init; }
+    public required IHostWrapper Host { get; init; }
 }

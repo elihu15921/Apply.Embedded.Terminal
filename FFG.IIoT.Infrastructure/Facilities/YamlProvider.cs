@@ -7,7 +7,7 @@ internal sealed class YamlProvider : FileConfigurationProvider
         YamlStream yamlStream = new();
         Stack<string> stackContext = new();
         yamlStream.Load(new StreamReader(stream));
-        var data = new SortedDictionary<string, string?>(StringComparer.Ordinal);
+        SortedDictionary<string, string?> data = new SortedDictionary<string, string?>(StringComparer.Ordinal);
         if (yamlStream.Documents.Count > 0) VisitYamlNode(string.Empty, yamlStream.Documents[default].RootNode);
         void VisitYamlNode(string context, YamlNode node)
         {
@@ -21,7 +21,7 @@ internal sealed class YamlProvider : FileConfigurationProvider
             else if (node is YamlMappingNode mappingNode)
             {
                 EnterContext(context);
-                foreach (var yamlNode in mappingNode.Children)
+                foreach (KeyValuePair<YamlNode, YamlNode> yamlNode in mappingNode.Children)
                 {
                     context = ((YamlScalarNode)yamlNode.Key).Value ?? string.Empty;
                     VisitYamlNode(context, yamlNode.Value);

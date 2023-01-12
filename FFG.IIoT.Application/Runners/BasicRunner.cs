@@ -8,16 +8,18 @@ internal sealed class BasicRunner : BackgroundService
             try
             {
                 await Basic.InitialProfile();
+                if (Histories.Any()) Histories.Clear();
             }
             catch (Exception e)
             {
-                Log.Fatal("[{0}] {1}", nameof(BasicRunner), new
+                if (!Histories.Contains(e.Message))
                 {
-                    e.Message,
-                    e.StackTrace
-                });
+                    Histories.Add(e.Message);
+                    Log.Fatal(HistoryFoot.Title, nameof(BasicRunner), new { e.Message });
+                }
             }
         }
     }
+    internal required List<string> Histories { get; init; } = new();
     public required IBasicFunction Basic { get; init; }
 }

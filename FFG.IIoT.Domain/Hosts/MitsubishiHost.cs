@@ -1,10 +1,21 @@
-﻿using static IIoT.Domain.Shared.Summits.IMitsubishiSummit;
+﻿using static IIoT.Domain.Shared.Hosts.IMitsubishiHost;
 
-namespace IIoT.Domain.Summits;
-internal sealed class MitsubishiSummit : IMitsubishiSummit
+namespace IIoT.Domain.Hosts;
+internal sealed class MitsubishiHost : IMitsubishiHost
 {
-    public MitsubishiSummit() => Pool = ArrayPool<byte>.Shared;
-    public async ValueTask InfrastructureAsync(int serialNo, int length, DeviceCode code)
+    readonly IBasicFunction _basicFunction;
+    public MitsubishiHost(IBasicFunction basicFunction) => _basicFunction = basicFunction;
+    public async ValueTask CreateAsync(IPAddress address)
+    {
+        await Warship.ConnectAsync(new IPEndPoint(address, Port));
+        await InfrastructureAsync(150, 4, DeviceCode.D);
+        {
+            Warship.Shutdown(SocketShutdown.Both);
+            Warship.Close();
+            Warship.Dispose();
+        }
+    }
+    async ValueTask InfrastructureAsync(int serialNo, int length, DeviceCode code)
     {
         await Warship.SendAsync(HexBytes(new ReadText
         {
@@ -14,15 +25,15 @@ internal sealed class MitsubishiSummit : IMitsubishiSummit
             Command = FixedPart.ReadCommand,
             SubCommand = FixedPart.MultiPoint,
             DeviceCode = code.GetDescription(),
-            StartPoint = Basic.ConvertHEX(serialNo, IBasicFunction.WordLength.Three),
-            Quantity = Basic.ConvertHEX(length, IBasicFunction.WordLength.Two)
+            StartPoint = _basicFunction.ConvertHEX(serialNo, WordLength.Three),
+            Quantity = _basicFunction.ConvertHEX(length, WordLength.Two)
         }));
-        var buffers = Pool.Rent(32);
+        var buffers = _basicFunction.BytePool.Rent(32);
         foreach (var receive in Capture(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))))
         {
 
         }
-        Pool.Return(buffers);
+        _basicFunction.BytePool.Return(buffers);
     }
     static byte[] HexBytes(ReadText text)
     {
@@ -43,7 +54,5 @@ internal sealed class MitsubishiSummit : IMitsubishiSummit
             else yield return Convert.ToInt32($"{bytes[item]}{low}", 16);
         }
     }
-    public required Socket Warship { get; set; }
-    public required ArrayPool<byte> Pool { get; init; }
-    public required IBasicFunction Basic { get; init; }
+    Socket Warship { get; } = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 }
