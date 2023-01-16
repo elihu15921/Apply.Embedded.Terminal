@@ -8,13 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="InfluxDB.Client.Linq" Version="4.9.0" />
 		<PackageReference Include="InTheHand.Net.Bluetooth" Version="4.0.33.1" />
 		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.5">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MongoDB.Driver" Version="2.18.0" />
 		<PackageReference Include="MQTTnet" Version="4.1.4.563" />
 		<PackageReference Include="NModbus" Version="3.0.72" />
 		<PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.50" />
@@ -26,7 +26,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="MongoDB.Driver" />
 		<Using Include="Serilog" />
 		<Using Include="Serilog.Events" />
 		<Using Include="Volo.Abp.Localization" />

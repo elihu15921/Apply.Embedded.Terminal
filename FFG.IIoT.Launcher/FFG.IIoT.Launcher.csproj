@@ -11,14 +11,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Figgle" Version="0.5.1" />
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.5">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -26,6 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Newtonsoft.Json" />
 		<Using Include="Serilog" />
 		<Using Include="Volo.Abp" />
 		<Using Include="Volo.Abp.AspNetCore" />
@@ -34,11 +34,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Microsoft.OpenApi.Models" />
+		<Using Include="Microsoft.AspNetCore.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Cors" />
+		<Using Include="Microsoft.AspNetCore.Mvc" />
+		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Net.Mime" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Application" />
+		<Using Include="IIoT.Application.Contract.Architects.Services" />
+		<Using Include="IIoT.Application.Contract.Architects.Services.IReduxService" Static="true" />
+		<Using Include="IIoT.Application.Services" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -49,11 +59,6 @@
 	<ItemGroup>
 		<Using Include="FFG.IIoT.Launcher" />
 		<Using Include="FFG.IIoT.Launcher.Datas" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Apis\" />
-		<Folder Include="Services\" />
 	</ItemGroup>
 
 </Project>

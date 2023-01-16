@@ -16,9 +16,5 @@ public sealed class DomainSharedModule : AbpModule
         .WriteTo.File(Path.Combine(HistoryFoot.Location, "Systems", "sys-.log"),
         outputTemplate: "[{Timestamp:HH:mm:ss.fff} {Level:u3}] {Message:lj}{Exception}{NewLine}",
         rollingInterval: RollingInterval.Day, retainedFileCountLimit: HistoryFoot.RetentionDay).CreateLogger();
-        context.Services.AddSingleton<IMongoClient>(item => new MongoClient(new MongoClientSettings
-        {
-            Server = new MongoServerAddress(IPAddress.Loopback.ToString(), 27017)
-        }));
     }
 }

@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.5">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -19,7 +19,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="MQTTnet.Server" />
 		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Http" />
+		<Using Include="Microsoft.AspNetCore.Mvc" />
 	</ItemGroup>
 
 	<ItemGroup>

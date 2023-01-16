@@ -10,22 +10,10 @@ try
     builder.Services.AddControllers();
     builder.Services.AddServerSideBlazor();
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen(options =>
-    {
-        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Open API - v1", Version = "v1" });
-    });
     await builder.AddApplicationAsync<AppModule>();
     var apply = builder.Build();
     {
-        if (apply.Environment.IsDevelopment())
-        {
-            apply.UseSwagger();
-            apply.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-            });
-            apply.UseExceptionHandler("/Error");
-        }
+        apply.UseExceptionHandler("/Error");
         apply.UseSerilogRequestLogging();
         apply.UseStaticFiles();
         apply.UseCors();
