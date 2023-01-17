@@ -21,11 +21,7 @@ internal sealed class AppModule : AbpModule
             {
                 List<string> results = new();
                 results.AddRange(Refresher());
-                IReduxService.ProblemResult result = new()
-                {
-                    Message = string.Join(",\u00A0", results)
-                };
-                return new UnprocessableEntityObjectResult(result)
+                return new UnprocessableEntityObjectResult(new { Message = string.Join(",\u00A0", results) })
                 {
                     ContentTypes = { MediaTypeNames.Application.Json }
                 };
@@ -39,7 +35,7 @@ internal sealed class AppModule : AbpModule
             };
         }).AddNewtonsoftJson(item =>
         {
-            item.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
+            item.SerializerSettings.DateFormatString = HistoryFoot.DateFormat;
             item.SerializerSettings.NullValueHandling = NullValueHandling.Include;
         }).AddMvcOptions(item => item.Conventions.Add(new ModelConvention())).AddControllersAsServices();
     }

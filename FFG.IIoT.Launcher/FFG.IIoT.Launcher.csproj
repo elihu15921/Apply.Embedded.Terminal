@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.7">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.8">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -30,6 +30,7 @@
 		<Using Include="Volo.Abp" />
 		<Using Include="Volo.Abp.AspNetCore" />
 		<Using Include="Volo.Abp.Autofac" />
+		<Using Include="Volo.Abp.Localization" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 
@@ -41,19 +42,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="System.ComponentModel" />
 		<Using Include="System.Net.Mime" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Application" />
-		<Using Include="IIoT.Application.Contract.Architects.Services" />
-		<Using Include="IIoT.Application.Contract.Architects.Services.IReduxService" Static="true" />
 		<Using Include="IIoT.Application.Services" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Domain.Shared.Functions" />
 		<Using Include="IIoT.Domain.Shared.Functions.IBasicFunction" Static="true" />
+		<Using Include="IIoT.Domain.Shared.Hosts" />
+		<Using Include="IIoT.Domain.Shared.Sources" />
+		<Using Include="IIoT.Domain.Shared.Wrappers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Infrastructure.Utilities" />
+		<Using Include="IIoT.Infrastructure.Utilities.NeutralUtility" Static="true" />
+		<Using Include="IIoT.Infrastructure.Utilities.ProcessUtility" Static="true" />
 	</ItemGroup>
 
 	<ItemGroup>

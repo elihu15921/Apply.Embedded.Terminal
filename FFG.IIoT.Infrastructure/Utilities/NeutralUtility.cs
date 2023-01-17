@@ -1,6 +1,7 @@
 ﻿namespace IIoT.Infrastructure.Utilities;
 public static class NeutralUtility
 {
+    public const string Trademark = "FFG";
     public static string UseEncryptAES(this string text)
     {
         using var aes = Aes.Create();
@@ -59,7 +60,15 @@ public static class NeutralUtility
         }
     }
     public static string Joint(this string front, string latter = "", string tag = ".") => $"{front}{tag}{latter}";
+    public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace(Trademark.Joint(), string.Empty);
     public static string GetDescription(this Enum @enum) => @enum.GetType().GetRuntimeField(@enum.ToString())!.GetCustomAttribute<DescriptionAttribute>()!.Description;
+    public enum LanguageType
+    {
+        [Description("en-US")] English,
+        [Description("zh-CN")] Simplified,
+        [Description("zh-TW")] Traditional
+    }
+    public static string Language { get; set; } = LanguageType.English.GetDescription();
     public static TimeSpan RefreshTime => TimeSpan.FromSeconds(1);
     public static string Passkey => nameof(IIoT).ToMd5();
     public static string RootDirectory => Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? string.Empty;

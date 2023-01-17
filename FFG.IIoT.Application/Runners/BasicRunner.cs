@@ -8,6 +8,10 @@ internal sealed class BasicRunner : BackgroundService
             try
             {
                 await Basic.InitialProfile();
+                if (Basic.Profile is not null)
+                {
+                    Language = Basic.Profile.Root.Language;
+                }
                 if (Histories.Any()) Histories.Clear();
             }
             catch (Exception e)

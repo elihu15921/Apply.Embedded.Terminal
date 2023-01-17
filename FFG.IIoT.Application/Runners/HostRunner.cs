@@ -12,7 +12,7 @@ internal sealed class HostRunner : BackgroundService
                     var address = IPAddress.Parse(Basic.Profile.Control.Address);
                     switch (Basic.Profile.Control.Type)
                     {
-                        case ProcessUtility.HostType.Mitsubishi:
+                        case HostType.Mitsubishi:
                             await Host.Mitsubishi.CreateAsync(address);
                             break;
                     }

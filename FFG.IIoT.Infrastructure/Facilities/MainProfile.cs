@@ -6,11 +6,11 @@ public sealed class MainProfile
     public sealed class TextRoot
     {
         [YamlMember(ApplyNamingConventions = false)] public bool Debug { get; init; }
-        [YamlMember(ApplyNamingConventions = false)] public string Language { get; init; } = Thread.CurrentThread.CurrentCulture.IetfLanguageTag;
+        [YamlMember(ApplyNamingConventions = false)] public string Language { get; init; } = NeutralUtility.Language;
     }
     public sealed class TextControl
     {
-        [YamlMember(ApplyNamingConventions = false)] public ProcessUtility.HostType Type { get; init; } = ProcessUtility.HostType.Mitsubishi;
+        [YamlMember(ApplyNamingConventions = false)] public HostType Type { get; init; } = HostType.Mitsubishi;
         [YamlMember(ApplyNamingConventions = false)] public string Address { get; init; } = IPAddress.Loopback.ToString();
     }
 }

@@ -1,19 +1,16 @@
 ﻿namespace FFG.IIoT.Launcher.Apis.Foundations;
 
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
-public class Informations : ControllerBase
+public class Maintenances : ControllerBase
 {
-    [HttpGet(Name = nameof(GetInformationAsync))]
-    public async ValueTask<IActionResult> GetInformationAsync()
+    [HttpGet(Name = nameof(GetMaintenance))]
+    public IActionResult GetMaintenance()
     {
         using (CultureHelper.Use(Language))
         {
             try
             {
-                return Ok(new
-                {
-                    Status = 0
-                });
+                return Ok(Host.Mitsubishi.GetMaintenance());
             }
             catch (Exception e)
             {
@@ -21,4 +18,5 @@ public class Informations : ControllerBase
             }
         }
     }
+    public required IHostWrapper Host { get; init; }
 }

@@ -1,6 +1,10 @@
 ﻿namespace IIoT.Domain.Functions;
 internal sealed class BasicFunction : IBasicFunction
 {
+    public BasicFunction()
+    {
+        Transport = new MqttFactory().CreateMqttServer(new MqttServerOptionsBuilder().WithDefaultEndpoint().WithDefaultEndpointPort(1883).Build());
+    }
     public async ValueTask InitialProfile()
     {
         try
@@ -58,5 +62,6 @@ internal sealed class BasicFunction : IBasicFunction
         return string.Empty;
     }
     public MainProfile? Profile { get; set; }
+    public required MqttServer Transport { get; init; }
     public ArrayPool<byte> BytePool { get; } = ArrayPool<byte>.Shared;
 }

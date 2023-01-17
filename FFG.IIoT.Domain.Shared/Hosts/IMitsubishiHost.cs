@@ -1,8 +1,11 @@
-﻿namespace IIoT.Domain.Shared.Hosts;
+﻿using static IIoT.Domain.Shared.Sources.IMaintenanceSource;
+
+namespace IIoT.Domain.Shared.Hosts;
 public interface IMitsubishiHost
 {
     const int Port = 30000;
     ValueTask CreateAsync(IPAddress address);
+    Maintenance GetMaintenance();
     enum DeviceCode
     {
         [Description("90")] M,
@@ -50,5 +53,11 @@ public interface IMitsubishiHost
         public required string DeviceCode { get; init; }
         public required string StartPoint { get; init; }
         public required string Quantity { get; init; }
+    }
+    readonly record struct Maintenance
+    {
+        public required MitsubishiInterval[] Weeklies { get; init; }
+        public required MitsubishiInterval[] Monthlies { get; init; }
+        public required MitsubishiInterval[] HalfYears { get; init; }
     }
 }
