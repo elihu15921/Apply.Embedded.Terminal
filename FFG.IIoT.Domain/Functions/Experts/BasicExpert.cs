@@ -1,7 +1,7 @@
-﻿namespace IIoT.Domain.Functions;
-internal sealed class BasicFunction : IBasicFunction
+﻿namespace IIoT.Domain.Functions.Experts;
+internal sealed class BasicExpert : IBasicExpert
 {
-    public BasicFunction()
+    public BasicExpert()
     {
         Transport = new MqttFactory().CreateMqttServer(new MqttServerOptionsBuilder().WithDefaultEndpoint().WithDefaultEndpointPort(1883).Build());
     }
@@ -15,7 +15,7 @@ internal sealed class BasicFunction : IBasicFunction
         }
         catch (Exception e)
         {
-            Log.Fatal(HistoryFoot.Title, nameof(BasicFunction).Joint(nameof(InitialProfile)), new
+            Log.Fatal(HistoryFoot.Title, nameof(BasicExpert).Joint(nameof(InitialProfile)), new
             {
                 e.Message,
                 e.StackTrace

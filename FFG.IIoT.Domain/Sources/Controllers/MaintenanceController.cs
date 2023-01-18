@@ -1,7 +1,7 @@
-﻿using static IIoT.Domain.Shared.Sources.IMaintenanceSource;
+﻿using static IIoT.Domain.Shared.Sources.Controllers.IMaintenanceController;
 
-namespace IIoT.Domain.Sources;
-internal sealed class MaintenanceSource : IMaintenanceSource
+namespace IIoT.Domain.Sources.Controllers;
+internal sealed class MaintenanceController : IMaintenanceController
 {
     MitsubishiInterval[] _mitsubishiWeekly = Array.Empty<MitsubishiInterval>();
     MitsubishiInterval[] _mitsubishiMonthly = Array.Empty<MitsubishiInterval>();

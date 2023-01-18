@@ -3,17 +3,14 @@
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Informations : ControllerBase
 {
-    [HttpGet(Name = nameof(GetInformationAsync))]
-    public async ValueTask<IActionResult> GetInformationAsync()
+    [HttpGet(Name = nameof(GetInformation))]
+    public IActionResult GetInformation()
     {
         using (CultureHelper.Use(Language))
         {
             try
             {
-                return Ok(new
-                {
-                    Status = 0
-                });
+                return Ok(Host.Mitsubishi.GetInformation());
             }
             catch (Exception e)
             {
@@ -21,4 +18,5 @@ public class Informations : ControllerBase
             }
         }
     }
+    public required IHostWrapper Host { get; init; }
 }

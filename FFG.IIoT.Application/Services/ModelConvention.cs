@@ -1,21 +1,21 @@
 ﻿namespace IIoT.Application.Services;
 public class ModelConvention : IControllerModelConvention
 {
-    public void Apply(ControllerModel controller)
+    public void Apply(ControllerModel model)
     {
-        if (controller.Selectors.Any(item => item.AttributeRouteModel is not null)) return;
-        if (controller.Selectors.Count is 0) controller.Selectors.Add(new());
-        for (int i = default; i < controller.Selectors.Count; i++) controller.Selectors[i].AttributeRouteModel = new()
+        if (model.Selectors.Any(item => item.AttributeRouteModel is not null)) return;
+        if (model.Selectors.Count is 0) model.Selectors.Add(new());
+        for (int i = default; i < model.Selectors.Count; i++) model.Selectors[i].AttributeRouteModel = new()
         {
-            Template = AttributeRouteModel.CombineTemplates(nameof(IIoT), controller.ControllerName)
+            Template = AttributeRouteModel.CombineTemplates(nameof(IIoT), model.ControllerName)
         };
-        for (int i = default; i < controller.Actions.Count; i++)
+        for (int i = default; i < model.Actions.Count; i++)
         {
-            if (controller.Actions[i].Selectors.Any(item => item.AttributeRouteModel is not null)) continue;
-            if (controller.Actions[i].Selectors.Count is 0) controller.Actions[i].Selectors.Add(new SelectorModel());
-            for (int item = default; item < controller.Actions[i].Selectors.Count; item++) controller.Actions[i].Selectors[item].AttributeRouteModel = new()
+            if (model.Actions[i].Selectors.Any(item => item.AttributeRouteModel is not null)) continue;
+            if (model.Actions[i].Selectors.Count is 0) model.Actions[i].Selectors.Add(new SelectorModel());
+            for (int item = default; item < model.Actions[i].Selectors.Count; item++) model.Actions[i].Selectors[item].AttributeRouteModel = new()
             {
-                Template = controller.Actions[i].ActionName
+                Template = model.Actions[i].ActionName
             };
         }
     }

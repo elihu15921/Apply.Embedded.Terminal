@@ -1,5 +1,5 @@
-﻿namespace IIoT.Domain.Shared.Functions;
-public interface IBasicFunction
+﻿namespace IIoT.Domain.Shared.Functions.Experts;
+public interface IBasicExpert
 {
     ValueTask InitialProfile();
     string ConvertHEX(in int quantity, in WordLength length);

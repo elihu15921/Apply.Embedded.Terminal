@@ -30,6 +30,6 @@ internal sealed class HostRunner : BackgroundService
         }
     }
     internal required List<string> Histories { get; init; } = new();
-    public required IBasicFunction Basic { get; init; }
+    public required IBasicExpert Basic { get; init; }
     public required IHostWrapper Host { get; init; }
 }

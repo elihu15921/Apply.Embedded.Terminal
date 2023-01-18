@@ -39,6 +39,7 @@
 		<Using Include="Microsoft.AspNetCore.Cors" />
 		<Using Include="Microsoft.AspNetCore.Mvc" />
 		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
+		<Using Include="Microsoft.Extensions.Localization" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -52,10 +53,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="IIoT.Domain.Shared.Functions" />
-		<Using Include="IIoT.Domain.Shared.Functions.IBasicFunction" Static="true" />
-		<Using Include="IIoT.Domain.Shared.Hosts" />
-		<Using Include="IIoT.Domain.Shared.Sources" />
+		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
+		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
+		<Using Include="IIoT.Domain.Shared.Languages.Fielders" />
+		<Using Include="IIoT.Domain.Shared.Sources.Controllers" />
 		<Using Include="IIoT.Domain.Shared.Wrappers" />
 	</ItemGroup>
 

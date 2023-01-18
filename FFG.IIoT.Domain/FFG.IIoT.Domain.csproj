@@ -38,17 +38,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="IIoT.Domain.Functions" />
-		<Using Include="IIoT.Domain.Hosts" />
-		<Using Include="IIoT.Domain.Sources" />
+		<Using Include="IIoT.Domain.Functions.Experts" />
+		<Using Include="IIoT.Domain.Functions.Hosts" />
+		<Using Include="IIoT.Domain.Sources.Controllers" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Domain.Shared" />
-		<Using Include="IIoT.Domain.Shared.Functions" />
-		<Using Include="IIoT.Domain.Shared.Functions.IBasicFunction" Static="true" />
-		<Using Include="IIoT.Domain.Shared.Hosts" />
-		<Using Include="IIoT.Domain.Shared.Sources" />
+		<Using Include="IIoT.Domain.Shared.Functions.Experts" />
+		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
+		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
+		<Using Include="IIoT.Domain.Shared.Sources.Controllers" />
 		<Using Include="IIoT.Domain.Shared.Wrappers" />
 	</ItemGroup>
 
