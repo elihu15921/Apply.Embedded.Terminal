@@ -1,0 +1,83 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<FileVersion>7.0.0</FileVersion>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>IIoT.Station</RootNamespace>
+		<ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<ServerGarbageCollection>false</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+		<UserSecretsId>a5a84eb3-e131-4241-9f54-fb5d523d56a3</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.8">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+		<PackageReference Include="MudBlazor" Version="6.1.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FFG.IIoT.Application\FFG.IIoT.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="MudBlazor.Services" />
+		<Using Include="Newtonsoft.Json" />
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp" />
+		<Using Include="Volo.Abp.AspNetCore" />
+		<Using Include="Volo.Abp.Autofac" />
+		<Using Include="Volo.Abp.Localization" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Cors" />
+		<Using Include="Microsoft.AspNetCore.Mvc" />
+		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
+		<Using Include="Microsoft.AspNetCore.Mvc.RazorPages" />
+		<Using Include="Microsoft.Extensions.Localization" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.Net.Mime" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Application" />
+		<Using Include="IIoT.Application.Services" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
+		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
+		<Using Include="IIoT.Domain.Shared.Languages.Fielders" />
+		<Using Include="IIoT.Domain.Shared.Sources.Controllers" />
+		<Using Include="IIoT.Domain.Shared.Wrappers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Infrastructure.Utilities" />
+		<Using Include="IIoT.Infrastructure.Utilities.NeutralUtility" Static="true" />
+		<Using Include="IIoT.Infrastructure.Utilities.ProcessUtility" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="IIoT.Station" />
+		<Using Include="IIoT.Station.Datas" />
+	</ItemGroup>
+
+</Project>

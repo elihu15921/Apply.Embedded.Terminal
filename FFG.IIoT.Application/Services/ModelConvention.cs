@@ -1,5 +1,5 @@
 ﻿namespace IIoT.Application.Services;
-public class ModelConvention : IControllerModelConvention
+public sealed class ModelConvention : IControllerModelConvention
 {
     public void Apply(ControllerModel model)
     {
