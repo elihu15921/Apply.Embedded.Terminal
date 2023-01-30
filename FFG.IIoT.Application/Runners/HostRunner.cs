@@ -9,11 +9,11 @@ internal sealed class HostRunner : BackgroundService
             {
                 if (Basic.Profile is not null)
                 {
-                    var address = IPAddress.Parse(Basic.Profile.Control.Address);
+                    var address = IPAddress.Parse(Basic.Profile.Control.IP);
                     switch (Basic.Profile.Control.Type)
                     {
                         case HostType.Mitsubishi:
-                            await Host.Mitsubishi.CreateAsync(address);
+                            await Turbo.Mitsubishi.CreateAsync(address);
                             break;
                     }
                 }
@@ -31,5 +31,5 @@ internal sealed class HostRunner : BackgroundService
     }
     internal required List<string> Histories { get; init; } = new();
     public required IBasicExpert Basic { get; init; }
-    public required IHostWrapper Host { get; init; }
+    public required ITurboWrapper Turbo { get; init; }
 }

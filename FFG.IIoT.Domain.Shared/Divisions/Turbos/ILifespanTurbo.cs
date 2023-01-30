@@ -1,5 +1,5 @@
-﻿namespace IIoT.Domain.Shared.Sources.Controllers;
-public interface ILifespanController
+﻿namespace IIoT.Domain.Shared.Divisions.Turbos;
+public interface ILifespanTurbo
 {
     void SetMitsubishiSpindle(MitsubishiSpindle[] spindles);
     enum SpindleRange

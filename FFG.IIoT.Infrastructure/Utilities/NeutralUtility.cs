@@ -1,7 +1,8 @@
 ﻿namespace IIoT.Infrastructure.Utilities;
 public static class NeutralUtility
 {
-    public const string Trademark = "FFG";
+    public const string FFG = "ffg";
+    public const string Cipher = "12345678";
     public static string UseEncryptAES(this string text)
     {
         using var aes = Aes.Create();
@@ -60,7 +61,7 @@ public static class NeutralUtility
         }
     }
     public static string Joint(this string front, string latter = "", string tag = ".") => $"{front}{tag}{latter}";
-    public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace(Trademark.Joint(), string.Empty);
+    public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace(nameof(FFG).Joint(), string.Empty);
     public static string GetDescription(this Enum @enum) => @enum.GetType().GetRuntimeField(@enum.ToString())!.GetCustomAttribute<DescriptionAttribute>()!.Description;
     public enum LanguageType
     {

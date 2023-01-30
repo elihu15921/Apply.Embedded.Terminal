@@ -11,6 +11,7 @@ internal sealed class BasicRunner : BackgroundService
                 if (Basic.Profile is not null)
                 {
                     Language = Basic.Profile.Root.Language;
+                    await Meta.Information.BuildAsync();
                 }
                 if (Histories.Any()) Histories.Clear();
             }
@@ -26,4 +27,5 @@ internal sealed class BasicRunner : BackgroundService
     }
     internal required List<string> Histories { get; init; } = new();
     public required IBasicExpert Basic { get; init; }
+    public required IMetaWrapper Meta { get; init; }
 }

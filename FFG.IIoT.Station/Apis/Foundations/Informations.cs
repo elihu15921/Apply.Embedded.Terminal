@@ -10,7 +10,11 @@ public class Informations : ControllerBase
         {
             try
             {
-                return Ok(Host.Mitsubishi.GetInformation());
+                return Ok(new Row
+                {
+                    Ecomode = default,
+                    MachineStatus = Latest.Machine?.Status ?? default
+                });
             }
             catch (Exception e)
             {
@@ -18,5 +22,12 @@ public class Informations : ControllerBase
             }
         }
     }
-    public required IHostWrapper Host { get; init; }
+
+    [StructLayout(LayoutKind.Auto)]
+    public readonly record struct Row
+    {
+        public required bool Ecomode { get; init; }
+        public required int MachineStatus { get; init; }
+    }
+    public required ILatestPool Latest { get; init; }
 }

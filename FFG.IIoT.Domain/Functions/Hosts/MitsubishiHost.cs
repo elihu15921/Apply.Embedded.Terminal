@@ -1,20 +1,19 @@
-﻿using static IIoT.Domain.Shared.Functions.Hosts.IMitsubishiHost;
-using static IIoT.Domain.Shared.Sources.Controllers.IInformationController;
-using static IIoT.Domain.Shared.Sources.Controllers.ILifespanController;
-using static IIoT.Domain.Shared.Sources.Controllers.IMaintenanceController;
+﻿using static IIoT.Domain.Shared.Divisions.Turbos.ILifespanTurbo;
+using static IIoT.Domain.Shared.Divisions.Turbos.IMaintenanceTurbo;
+using static IIoT.Domain.Shared.Functions.Hosts.IMitsubishiHost;
 
 namespace IIoT.Domain.Functions.Hosts;
 internal sealed class MitsubishiHost : IMitsubishiHost
 {
+    readonly IMetaWrapper _meta;
     readonly IBasicExpert _basic;
-    readonly ILifespanController _lifespan;
-    readonly IInformationController _information;
-    readonly IMaintenanceController _maintenance;
-    public MitsubishiHost(IBasicExpert basic, ILifespanController lifespan, IInformationController information, IMaintenanceController maintenance)
+    readonly ILifespanTurbo _lifespan;
+    readonly IMaintenanceTurbo _maintenance;
+    public MitsubishiHost(IMetaWrapper meta, IBasicExpert basic, ILifespanTurbo lifespan, IMaintenanceTurbo maintenance)
     {
+        _meta = meta;
         _basic = basic;
         _lifespan = lifespan;
-        _information = information;
         _maintenance = maintenance;
     }
     public async ValueTask CreateAsync(IPAddress address)
@@ -29,7 +28,6 @@ internal sealed class MitsubishiHost : IMitsubishiHost
             Warship.Dispose();
         }
     }
-    public MitsubishiInformationFoot GetInformation() => _information.MitsubishiInformation;
     public Maintenance GetMaintenance() => new()
     {
         Weeklies = _maintenance.MitsubishiWeeklies,
@@ -45,16 +43,10 @@ internal sealed class MitsubishiHost : IMitsubishiHost
         await Warship.SendAsync(values);
         var buffers = _basic.BytePool.Rent(16);
         var receives = Capture(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))).ToArray();
-        _information.SetMitsubishi(new()
+        await _meta.Information.InsertAsync(new()
         {
-            Ecomode = default,
-            MachineStatus = receives[0] switch
-            {
-                (int)MachineStatus.Run => MachineStatus.Run,
-                (int)MachineStatus.Error => MachineStatus.Error,
-                (int)MachineStatus.Repair => MachineStatus.Repair,
-                _ => MachineStatus.Idle
-            }
+            Status = receives[0],
+            Timestamp = DateTime.UtcNow
         });
     }
     async ValueTask PushMaintanenceItemAsync(byte[] values)

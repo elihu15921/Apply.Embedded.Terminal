@@ -10,7 +10,7 @@ public class Maintenances : ControllerBase
         {
             try
             {
-                return Ok(Host.Mitsubishi.GetMaintenance());
+                return Ok(Turbo.Mitsubishi.GetMaintenance());
             }
             catch (Exception e)
             {
@@ -18,5 +18,5 @@ public class Maintenances : ControllerBase
             }
         }
     }
-    public required IHostWrapper Host { get; init; }
+    public required ITurboWrapper Turbo { get; init; }
 }

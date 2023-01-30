@@ -1,13 +1,11 @@
-﻿using static IIoT.Domain.Shared.Sources.Controllers.IInformationController;
-using static IIoT.Domain.Shared.Sources.Controllers.ILifespanController;
-using static IIoT.Domain.Shared.Sources.Controllers.IMaintenanceController;
+﻿using static IIoT.Domain.Shared.Divisions.Turbos.ILifespanTurbo;
+using static IIoT.Domain.Shared.Divisions.Turbos.IMaintenanceTurbo;
 
 namespace IIoT.Domain.Shared.Functions.Hosts;
 public interface IMitsubishiHost
 {
     const int Port = 30000;
     ValueTask CreateAsync(IPAddress address);
-    MitsubishiInformationFoot GetInformation();
     Maintenance GetMaintenance();
     SpindleLifespan GetSpindleLife();
     enum DeviceCode

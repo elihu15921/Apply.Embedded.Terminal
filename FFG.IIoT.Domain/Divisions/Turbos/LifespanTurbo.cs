@@ -1,7 +1,7 @@
-﻿using static IIoT.Domain.Shared.Sources.Controllers.ILifespanController;
+﻿using static IIoT.Domain.Shared.Divisions.Turbos.ILifespanTurbo;
 
-namespace IIoT.Domain.Sources.Controllers;
-internal sealed class LifespanController : ILifespanController
+namespace IIoT.Domain.Divisions.Turbos;
+internal sealed class LifespanTurbo : ILifespanTurbo
 {
     MitsubishiSpindle[] _mitsubishiSpindles = Array.Empty<MitsubishiSpindle>();
     public void SetMitsubishiSpindle(MitsubishiSpindle[] spindles) => _mitsubishiSpindles = spindles;

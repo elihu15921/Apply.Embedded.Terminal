@@ -21,14 +21,14 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentModbus" Version="5.0.2" />
-		<PackageReference Include="InfluxDB.Client.Linq" Version="4.9.0" />
+		<PackageReference Include="InfluxDB.Client.Linq" Version="4.10.0" />
 		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.10">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.13">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="MQTTnet" Version="4.1.4.563" />
-		<PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.50" />
+		<PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.60" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
 	</ItemGroup>
 
@@ -37,6 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="InfluxDB.Client.Core" />
 		<Using Include="MQTTnet.Server" />
 		<Using Include="Serilog" />
 		<Using Include="Serilog.Events" />
@@ -61,6 +62,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="IIoT.Domain.Shared.Divisions.Metas.Trunks" />
+		<Using Include="IIoT.Domain.Shared.Functions.Experts" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
 		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
 		<Using Include="IIoT.Domain.Shared.Languages.Fielders" />
@@ -71,6 +74,10 @@
 		<Using Include="IIoT.Infrastructure.Utilities" />
 		<Using Include="IIoT.Infrastructure.Utilities.NeutralUtility" Static="true" />
 		<Using Include="IIoT.Infrastructure.Utilities.ProcessUtility" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Divisions\Stores\" />
 	</ItemGroup>
 
 </Project>

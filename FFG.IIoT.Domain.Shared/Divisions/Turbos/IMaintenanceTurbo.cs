@@ -1,5 +1,5 @@
-﻿namespace IIoT.Domain.Shared.Sources.Controllers;
-public interface IMaintenanceController
+﻿namespace IIoT.Domain.Shared.Divisions.Turbos;
+public interface IMaintenanceTurbo
 {
     void SetMitsubishiWeekly(MitsubishiInterval[] intervals);
     void SetMitsubishiMonthly(MitsubishiInterval[] intervals);

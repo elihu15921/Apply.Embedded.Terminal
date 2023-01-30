@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.10">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.13">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -19,6 +19,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="InfluxDB.Client" />
+		<Using Include="InfluxDB.Client.Api.Domain" />
+		<Using Include="InfluxDB.Client.Core" />
 		<Using Include="MQTTnet" />
 		<Using Include="MQTTnet.Server" />
 		<Using Include="Serilog" />
@@ -38,23 +41,32 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="IIoT.Domain.Divisions.Metas.Trunks" />
+		<Using Include="IIoT.Domain.Divisions.Turbos" />
 		<Using Include="IIoT.Domain.Functions.Experts" />
 		<Using Include="IIoT.Domain.Functions.Hosts" />
-		<Using Include="IIoT.Domain.Sources.Controllers" />
+		<Using Include="IIoT.Domain.Functions.Pools" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Domain.Shared" />
+		<Using Include="IIoT.Domain.Shared.Divisions.Metas.Trunks" />
+		<Using Include="IIoT.Domain.Shared.Divisions.Turbos" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
 		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
-		<Using Include="IIoT.Domain.Shared.Sources.Controllers" />
+		<Using Include="IIoT.Domain.Shared.Functions.Pools" />
 		<Using Include="IIoT.Domain.Shared.Wrappers" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Infrastructure.Facilities" />
 		<Using Include="IIoT.Infrastructure.Utilities" />
+		<Using Include="IIoT.Infrastructure.Utilities.NeutralUtility" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Divisions\Stores\" />
 	</ItemGroup>
 
 </Project>
