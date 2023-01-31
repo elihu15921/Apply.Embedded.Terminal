@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.13">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.14">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -34,8 +34,10 @@
 
 	<ItemGroup>
 		<Using Include="System.Buffers" />
+		<Using Include="System.ComponentModel" />
 		<Using Include="System.Net" />
 		<Using Include="System.Net.Sockets" />
+		<Using Include="System.Reflection" />
 	</ItemGroup>
 
 	<ItemGroup>

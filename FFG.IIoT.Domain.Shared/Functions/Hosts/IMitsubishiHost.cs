@@ -1,5 +1,4 @@
-﻿using static IIoT.Domain.Shared.Divisions.Turbos.ILifespanTurbo;
-using static IIoT.Domain.Shared.Divisions.Turbos.IMaintenanceTurbo;
+﻿using static IIoT.Domain.Shared.Divisions.Turbos.IMaintenanceTurbo;
 
 namespace IIoT.Domain.Shared.Functions.Hosts;
 public interface IMitsubishiHost
@@ -7,7 +6,6 @@ public interface IMitsubishiHost
     const int Port = 30000;
     ValueTask CreateAsync(IPAddress address);
     Maintenance GetMaintenance();
-    SpindleLifespan GetSpindleLife();
     enum DeviceCode
     {
         [Description("90")] M,
@@ -61,9 +59,5 @@ public interface IMitsubishiHost
         public required MitsubishiInterval[] Weeklies { get; init; }
         public required MitsubishiInterval[] Monthlies { get; init; }
         public required MitsubishiInterval[] HalfYears { get; init; }
-    }
-    readonly record struct SpindleLifespan
-    {
-        public required MitsubishiSpindle[] Speeds { get; init; }
     }
 }

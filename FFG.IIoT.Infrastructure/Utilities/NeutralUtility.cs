@@ -2,11 +2,11 @@
 public static class NeutralUtility
 {
     public const string FFG = "ffg";
-    public const string Cipher = "12345678";
+    public const string Passkey = "12345678";
     public static string UseEncryptAES(this string text)
     {
         using var aes = Aes.Create();
-        using var encryptor = aes.CreateEncryptor(Encoding.UTF8.GetBytes(Passkey), aes.IV);
+        using var encryptor = aes.CreateEncryptor(Encoding.UTF8.GetBytes(Passkey.ToMd5()), aes.IV);
         {
             using MemoryStream msEncrypt = new();
             using (CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write))
@@ -30,7 +30,7 @@ public static class NeutralUtility
         Buffer.BlockCopy(fullCipher, iv.Length, cipher, default, fullCipher.Length - iv.Length);
         {
             using var aes = Aes.Create();
-            using var decryptor = aes.CreateDecryptor(Encoding.UTF8.GetBytes(Passkey), iv);
+            using var decryptor = aes.CreateDecryptor(Encoding.UTF8.GetBytes(Passkey.ToMd5()), iv);
             using MemoryStream msDecrypt = new(cipher);
             using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
             using StreamReader srDecrypt = new(csDecrypt);
@@ -41,7 +41,7 @@ public static class NeutralUtility
     {
         YamlSource source = new()
         {
-            Path = Path.Combine(RootDirectory, $"{Passkey}.yml"),
+            Path = Path.Combine(RootDirectory, $"{Passkey.ToMd5()}.yml"),
             FileProvider = null,
             Optional = default,
             ReloadOnChange = default
@@ -54,7 +54,7 @@ public static class NeutralUtility
     }
     public static async ValueTask CreateFileAaync<T>(this T entity, bool cover = default)
     {
-        var path = Path.Combine(RootDirectory, $"{Passkey}.yml");
+        var path = Path.Combine(RootDirectory, $"{Passkey.ToMd5()}.yml");
         if ((!File.Exists(path) || cover) && entity is not null)
         {
             await File.WriteAllTextAsync(path, new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build().Serialize(entity), Encoding.UTF8);
@@ -62,7 +62,14 @@ public static class NeutralUtility
     }
     public static string Joint(this string front, string latter = "", string tag = ".") => $"{front}{tag}{latter}";
     public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace(nameof(FFG).Joint(), string.Empty);
+    public static string GetDescription(this Type type, string name) => type.GetRuntimeField(name)!.GetCustomAttribute<DescriptionAttribute>()!.Description;
     public static string GetDescription(this Enum @enum) => @enum.GetType().GetRuntimeField(@enum.ToString())!.GetCustomAttribute<DescriptionAttribute>()!.Description;
+    public static IDictionary<string, (int number, string description)> GetDescription<T>()
+    {
+        Dictionary<string, (int number, string description)> results = new();
+        foreach (Enum @enum in Enum.GetValues(typeof(T))) results.Add(@enum.ToString(), (@enum.GetHashCode(), @enum.GetDescription()));
+        return results.ToImmutableDictionary();
+    }
     public enum LanguageType
     {
         [Description("en-US")] English,
@@ -71,6 +78,5 @@ public static class NeutralUtility
     }
     public static string Language { get; set; } = LanguageType.English.GetDescription();
     public static TimeSpan RefreshTime => TimeSpan.FromSeconds(1);
-    public static string Passkey => nameof(IIoT).ToMd5();
     public static string RootDirectory => Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
 }

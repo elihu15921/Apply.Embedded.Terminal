@@ -5,7 +5,7 @@ internal sealed class BasicExpert : IBasicExpert
     {
         Transport = new MqttFactory().CreateMqttServer(new MqttServerOptionsBuilder().WithDefaultEndpoint().WithDefaultEndpointPort(1883).Build());
     }
-    public async ValueTask InitialProfile()
+    public async ValueTask InitialProfileAsync()
     {
         try
         {
@@ -15,11 +15,22 @@ internal sealed class BasicExpert : IBasicExpert
         }
         catch (Exception e)
         {
-            Log.Fatal(HistoryFoot.Title, nameof(BasicExpert).Joint(nameof(InitialProfile)), new
+            Log.Fatal(HistoryFoot.Title, nameof(BasicExpert).Joint(nameof(InitialProfileAsync)), new
             {
                 e.Message,
                 e.StackTrace
             });
+        }
+    }
+    public async ValueTask InitialPoolAsync(string url, string organize, string username, string password, string bucket)
+    {
+        using var result = new InfluxDBClient(url, username, password);
+        var entity = await result.GetBucketsApi().FindBucketByNameAsync(bucket);
+        if (entity is null)
+        {
+            var organizations = await result.GetOrganizationsApi().FindOrganizationsAsync(org: organize);
+            BucketRetentionRules rule = new(BucketRetentionRules.TypeEnum.Expire, 100 * HistoryFoot.DayToSeconds);
+            await result.GetBucketsApi().CreateBucketAsync(bucket, rule, organizations[default].Id);
         }
     }
     public string ConvertHEX(in int quantity, in WordLength length)

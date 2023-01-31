@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.13">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.14">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -41,21 +41,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="IIoT.Domain.Divisions.Metas.Trunks" />
 		<Using Include="IIoT.Domain.Divisions.Turbos" />
 		<Using Include="IIoT.Domain.Functions.Experts" />
 		<Using Include="IIoT.Domain.Functions.Hosts" />
 		<Using Include="IIoT.Domain.Functions.Pools" />
+		<Using Include="IIoT.Domain.Timeseries.Manages" />
+		<Using Include="IIoT.Domain.Timeseries.Spindles" />
+		<Using Include="IIoT.Domain.Timeseries.Trunks" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="IIoT.Domain.Shared" />
-		<Using Include="IIoT.Domain.Shared.Divisions.Metas.Trunks" />
 		<Using Include="IIoT.Domain.Shared.Divisions.Turbos" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
 		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
 		<Using Include="IIoT.Domain.Shared.Functions.Pools" />
+		<Using Include="IIoT.Domain.Shared.Timeseries.Manages" />
+		<Using Include="IIoT.Domain.Shared.Timeseries.Spindles" />
+		<Using Include="IIoT.Domain.Shared.Timeseries.Trunks" />
 		<Using Include="IIoT.Domain.Shared.Wrappers" />
 	</ItemGroup>
 
@@ -63,10 +67,6 @@
 		<Using Include="IIoT.Infrastructure.Facilities" />
 		<Using Include="IIoT.Infrastructure.Utilities" />
 		<Using Include="IIoT.Infrastructure.Utilities.NeutralUtility" Static="true" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Divisions\Stores\" />
 	</ItemGroup>
 
 </Project>

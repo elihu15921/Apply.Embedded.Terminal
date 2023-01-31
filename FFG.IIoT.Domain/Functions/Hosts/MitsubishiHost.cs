@@ -1,25 +1,22 @@
-﻿using static IIoT.Domain.Shared.Divisions.Turbos.ILifespanTurbo;
-using static IIoT.Domain.Shared.Divisions.Turbos.IMaintenanceTurbo;
+﻿using static IIoT.Domain.Shared.Divisions.Turbos.IMaintenanceTurbo;
 using static IIoT.Domain.Shared.Functions.Hosts.IMitsubishiHost;
 
 namespace IIoT.Domain.Functions.Hosts;
 internal sealed class MitsubishiHost : IMitsubishiHost
 {
-    readonly IMetaWrapper _meta;
     readonly IBasicExpert _basic;
-    readonly ILifespanTurbo _lifespan;
+    readonly ITimeserieWrapper _timeserie;
     readonly IMaintenanceTurbo _maintenance;
-    public MitsubishiHost(IMetaWrapper meta, IBasicExpert basic, ILifespanTurbo lifespan, IMaintenanceTurbo maintenance)
+    public MitsubishiHost(IBasicExpert basic, ITimeserieWrapper timeserie, IMaintenanceTurbo maintenance)
     {
-        _meta = meta;
         _basic = basic;
-        _lifespan = lifespan;
+        _timeserie = timeserie;
         _maintenance = maintenance;
     }
     public async ValueTask CreateAsync(IPAddress address)
     {
         await Warship.ConnectAsync(new IPEndPoint(address, Port));
-        await PushMachineStatusAsync(Reader(96, 1, DeviceCode.D));
+        await PushInformationTrunkAsync(Reader(96, 1, DeviceCode.D));
         await PushMaintanenceItemAsync(Reader(9571, 29, DeviceCode.R));
         await PushSpindleLifeAsync(Reader(910, 15, DeviceCode.D), Reader(9200, 30, DeviceCode.R));
         {
@@ -34,18 +31,15 @@ internal sealed class MitsubishiHost : IMitsubishiHost
         Monthlies = _maintenance.MitsubishiMonthlies,
         HalfYears = _maintenance.MitsubishiHalfYears
     };
-    public SpindleLifespan GetSpindleLife() => new()
-    {
-        Speeds = _lifespan.MitsubishiSpindles
-    };
-    async ValueTask PushMachineStatusAsync(byte[] values)
+    async ValueTask PushInformationTrunkAsync(byte[] values)
     {
         await Warship.SendAsync(values);
         var buffers = _basic.BytePool.Rent(16);
         var receives = Capture(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))).ToArray();
-        await _meta.Information.InsertAsync(new()
+        await _timeserie.BasicInformation.InsertAsync(new()
         {
             Status = receives[0],
+            Identifier = string.Empty,
             Timestamp = DateTime.UtcNow
         });
     }
@@ -220,127 +214,142 @@ internal sealed class MitsubishiHost : IMitsubishiHost
         var keepBuffers = _basic.BytePool.Rent(128);
         var keepReceives = Capture(BitConverter.ToString(keepBuffers, default, await Warship.ReceiveAsync(keepBuffers))).ToArray();
         _basic.BytePool.Return(keepBuffers);
-        _lifespan.SetMitsubishiSpindle(new[]
+        await _timeserie.LifespanSpeed.InsertAsync(new[]
         {
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 1,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.A),
                 Hour = keepReceives[1],
                 Minute = keepReceives[0],
                 Second = flasheReceives[0],
-                Description = SpindleRange.A.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 2,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.B),
                 Hour = keepReceives[3],
                 Minute = keepReceives[2],
                 Second = flasheReceives[1],
-                Description = SpindleRange.B.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 3,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.C),
                 Hour = keepReceives[5],
                 Minute = keepReceives[4],
                 Second = flasheReceives[2],
-                Description = SpindleRange.C.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 4,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.D),
                 Hour = keepReceives[7],
                 Minute = keepReceives[6],
                 Second = flasheReceives[3],
-                Description = SpindleRange.D.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 5,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.E),
                 Hour = keepReceives[9],
                 Minute = keepReceives[8],
                 Second = flasheReceives[4],
-                Description = SpindleRange.E.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 6,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.F),
                 Hour = keepReceives[11],
                 Minute = keepReceives[10],
                 Second = flasheReceives[5],
-                Description = SpindleRange.F.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 7,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.G),
                 Hour = keepReceives[13],
                 Minute = keepReceives[12],
                 Second = flasheReceives[6],
-                Description = SpindleRange.G.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 8,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.H),
                 Hour = keepReceives[15],
                 Minute = keepReceives[14],
                 Second = flasheReceives[7],
-                Description = SpindleRange.H.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 9,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.I),
                 Hour = keepReceives[17],
                 Minute = keepReceives[16],
                 Second = flasheReceives[8],
-                Description = SpindleRange.I.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 10,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.J),
                 Hour = keepReceives[19],
                 Minute = keepReceives[18],
                 Second = flasheReceives[9],
-                Description = SpindleRange.J.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 11,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.K),
                 Hour = keepReceives[21],
                 Minute = keepReceives[20],
                 Second = flasheReceives[10],
-                Description = SpindleRange.K.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 12,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.L),
                 Hour = keepReceives[23],
                 Minute = keepReceives[22],
                 Second = flasheReceives[11],
-                Description = SpindleRange.L.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 13,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.M),
                 Hour = keepReceives[25],
                 Minute = keepReceives[24],
                 Second = flasheReceives[12],
-                Description = SpindleRange.M.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 14,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.N),
                 Hour = keepReceives[27],
                 Minute = keepReceives[26],
                 Second = flasheReceives[13],
-                Description = SpindleRange.N.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             },
-            new MitsubishiSpindle
+            new ILifespanSpeed.Entity
             {
-                RangeNo = 15,
+                Range = nameof(ILifespanSpeed.Entity.SpeedRange.O),
                 Hour = keepReceives[29],
                 Minute = keepReceives[28],
                 Second = flasheReceives[14],
-                Description = SpindleRange.O.GetDescription()
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
             }
         });
     }

@@ -7,7 +7,6 @@ public sealed class DomainModule : AbpModule
     {
         context.Services.AddSingleton<ILatestPool, LatestPool>();
         context.Services.AddSingleton<IBasicExpert, BasicExpert>();
-        context.Services.AddSingleton<ILifespanTurbo, LifespanTurbo>();
         context.Services.AddSingleton<IMaintenanceTurbo, MaintenanceTurbo>();
     }
 }

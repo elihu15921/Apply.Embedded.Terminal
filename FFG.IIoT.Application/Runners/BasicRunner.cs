@@ -7,11 +7,15 @@ internal sealed class BasicRunner : BackgroundService
         {
             try
             {
-                await Basic.InitialProfile();
+                await Basic.InitialProfileAsync();
                 if (Basic.Profile is not null)
                 {
                     Language = Basic.Profile.Root.Language;
-                    await Meta.Information.BuildAsync();
+                    foreach (ITimeserieWrapper.BucketType item in Enum.GetValues(typeof(ITimeserieWrapper.BucketType)))
+                    {
+                        var name = item.GetType().GetDescription(item.ToString());
+                        await Basic.InitialPoolAsync(Basic.Profile.Pool.URL, Basic.Profile.Pool.Organize, Basic.Profile.Pool.Username, Basic.Profile.Pool.Password, name);
+                    }
                 }
                 if (Histories.Any()) Histories.Clear();
             }
@@ -27,5 +31,4 @@ internal sealed class BasicRunner : BackgroundService
     }
     internal required List<string> Histories { get; init; } = new();
     public required IBasicExpert Basic { get; init; }
-    public required IMetaWrapper Meta { get; init; }
 }

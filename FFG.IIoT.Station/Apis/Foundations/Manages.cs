@@ -1,11 +1,11 @@
 ﻿namespace IIoT.Station.Apis.Foundations;
 
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
-public class Maintenances : ControllerBase
+public class Manages : ControllerBase
 {
     [HttpGet(Name = nameof(GetMaintenance))]
     public IActionResult GetMaintenance()
-    {
+    {//Maintenances
         using (CultureHelper.Use(Language))
         {
             try

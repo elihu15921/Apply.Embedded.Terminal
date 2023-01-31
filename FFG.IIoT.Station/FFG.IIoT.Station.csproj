@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.13">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.14">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -71,6 +71,7 @@
 		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
 		<Using Include="IIoT.Domain.Shared.Functions.Pools" />
 		<Using Include="IIoT.Domain.Shared.Languages.Fielders" />
+		<Using Include="IIoT.Domain.Shared.Timeseries.Spindles" />
 		<Using Include="IIoT.Domain.Shared.Wrappers" />
 	</ItemGroup>
 

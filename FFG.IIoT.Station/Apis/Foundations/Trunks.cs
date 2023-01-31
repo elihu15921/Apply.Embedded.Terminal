@@ -1,10 +1,10 @@
 ﻿namespace IIoT.Station.Apis.Foundations;
 
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
-public class Informations : ControllerBase
+public class Trunks : ControllerBase
 {
-    [HttpGet(Name = nameof(GetInformation))]
-    public IActionResult GetInformation()
+    [HttpGet("informations", Name = nameof(GetTrunkInformation))]
+    public IActionResult GetTrunkInformation()
     {
         using (CultureHelper.Use(Language))
         {
@@ -13,7 +13,7 @@ public class Informations : ControllerBase
                 return Ok(new Row
                 {
                     Ecomode = default,
-                    MachineStatus = Latest.Machine?.Status ?? default
+                    MachineStatus = Latest.BasicInformation?.Status ?? default
                 });
             }
             catch (Exception e)

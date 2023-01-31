@@ -19,6 +19,6 @@ public sealed class MainProfile
         [YamlMember(ApplyNamingConventions = false)] public string URL { get; init; } = $"{Uri.UriSchemeHttp}://{IPAddress.Loopback}:8086";
         [YamlMember(ApplyNamingConventions = false)] public string Organize { get; init; } = nameof(FFG);
         [YamlMember(ApplyNamingConventions = false)] public string Username { get; init; } = FFG;
-        [YamlMember(ApplyNamingConventions = false)] public string Password { get; init; } = Cipher;
+        [YamlMember(ApplyNamingConventions = false)] public string Password { get; init; } = Passkey;
     }
 }
