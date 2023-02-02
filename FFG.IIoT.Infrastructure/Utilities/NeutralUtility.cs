@@ -1,8 +1,6 @@
 ﻿namespace IIoT.Infrastructure.Utilities;
 public static class NeutralUtility
 {
-    public const string FFG = "ffg";
-    public const string Passkey = "12345678";
     public static string UseEncryptAES(this string text)
     {
         using var aes = Aes.Create();
@@ -41,7 +39,7 @@ public static class NeutralUtility
     {
         YamlSource source = new()
         {
-            Path = Path.Combine(RootDirectory, $"{Passkey.ToMd5()}.yml"),
+            Path = Path.Combine(Menu.RootDirectory, $"{Passkey.ToMd5()}.yml"),
             FileProvider = null,
             Optional = default,
             ReloadOnChange = default
@@ -54,12 +52,13 @@ public static class NeutralUtility
     }
     public static async ValueTask CreateFileAaync<T>(this T entity, bool cover = default)
     {
-        var path = Path.Combine(RootDirectory, $"{Passkey.ToMd5()}.yml");
+        var path = Path.Combine(Menu.RootDirectory, $"{Passkey.ToMd5()}.yml");
         if ((!File.Exists(path) || cover) && entity is not null)
         {
             await File.WriteAllTextAsync(path, new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build().Serialize(entity), Encoding.UTF8);
         }
     }
+    public static void UseTriggers(this IApplicationBuilder app) => Array.ForEach(app.ApplicationServices.GetRequiredService<IEntranceTrigger[]>(), item => Task.Run(() => item.BuildAsync()));
     public static string Joint(this string front, string latter = "", string tag = ".") => $"{front}{tag}{latter}";
     public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace(nameof(FFG).Joint(), string.Empty);
     public static string GetDescription(this Type type, string name) => type.GetRuntimeField(name)!.GetCustomAttribute<DescriptionAttribute>()!.Description;
@@ -70,13 +69,25 @@ public static class NeutralUtility
         foreach (Enum @enum in Enum.GetValues(typeof(T))) results.Add(@enum.ToString(), (@enum.GetHashCode(), @enum.GetDescription()));
         return results.ToImmutableDictionary();
     }
-    public enum LanguageType
+    public static T? ToObject<T>(this string content) => JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions
     {
-        [Description("en-US")] English,
-        [Description("zh-CN")] Simplified,
-        [Description("zh-TW")] Traditional
-    }
-    public static string Language { get; set; } = LanguageType.English.GetDescription();
-    public static TimeSpan RefreshTime => TimeSpan.FromSeconds(1);
-    public static string RootDirectory => Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
+        AllowTrailingCommas = true,
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    });
+    public static T? ToObject<T>(this byte[] contents) => JsonSerializer.Deserialize<T>(contents, new JsonSerializerOptions
+    {
+        AllowTrailingCommas = true,
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    });
+    public static string ToJson<T>(this T @object, bool indented = false) => JsonSerializer.Serialize(@object, typeof(T), new JsonSerializerOptions
+    {
+        WriteIndented = indented,
+        PropertyNameCaseInsensitive = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    });
 }

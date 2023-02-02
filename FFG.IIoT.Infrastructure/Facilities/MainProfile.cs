@@ -7,7 +7,7 @@ public sealed class MainProfile
     public sealed class TextRoot
     {
         [YamlMember(ApplyNamingConventions = false)] public bool Debug { get; init; }
-        [YamlMember(ApplyNamingConventions = false)] public string Language { get; init; } = NeutralUtility.Language;
+        [YamlMember(ApplyNamingConventions = false)] public string Language { get; init; } = Menu.Language;
     }
     public sealed class TextControl
     {
@@ -16,7 +16,7 @@ public sealed class MainProfile
     }
     public sealed class TextPool
     {
-        [YamlMember(ApplyNamingConventions = false)] public string URL { get; init; } = $"{Uri.UriSchemeHttp}://{IPAddress.Loopback}:8086";
+        [YamlMember(ApplyNamingConventions = false)] public string URL { get; init; } = $"{Uri.UriSchemeHttp}://{IPAddress.Loopback}:{Point.Metadata}";
         [YamlMember(ApplyNamingConventions = false)] public string Organize { get; init; } = nameof(FFG);
         [YamlMember(ApplyNamingConventions = false)] public string Username { get; init; } = FFG;
         [YamlMember(ApplyNamingConventions = false)] public string Password { get; init; } = Passkey;

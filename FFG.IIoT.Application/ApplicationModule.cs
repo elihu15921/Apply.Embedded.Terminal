@@ -7,5 +7,6 @@ public sealed class ApplicationModule : AbpModule
     {
         context.Services.AddHostedService<BasicRunner>();
         context.Services.AddHostedService<HostRunner>();
+        context.Services.AddSingleton<IEntranceTrigger, MessageQueue>();
     }
 }

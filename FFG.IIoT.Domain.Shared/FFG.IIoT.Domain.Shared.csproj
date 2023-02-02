@@ -8,15 +8,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Languages\Fielders\_english.json" />
-		<None Remove="Languages\Fielders\_simplified.json" />
-		<None Remove="Languages\Fielders\_traditional.json" />
+		<None Remove="Functions\Languages\Fielders\_english.json" />
+		<None Remove="Functions\Languages\Fielders\_simplified.json" />
+		<None Remove="Functions\Languages\Fielders\_traditional.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Languages\Fielders\_english.json" />
-		<EmbeddedResource Include="Languages\Fielders\_simplified.json" />
-		<EmbeddedResource Include="Languages\Fielders\_traditional.json" />
+		<EmbeddedResource Include="Functions\Languages\Fielders\_english.json" />
+		<EmbeddedResource Include="Functions\Languages\Fielders\_simplified.json" />
+		<EmbeddedResource Include="Functions\Languages\Fielders\_traditional.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -63,13 +63,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="IIoT.Domain.Shared.Accessories.Queues" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
 		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
-		<Using Include="IIoT.Domain.Shared.Languages.Fielders" />
+		<Using Include="IIoT.Domain.Shared.Functions.Languages.Fielders" />
 		<Using Include="IIoT.Domain.Shared.Timeseries.Manages" />
 		<Using Include="IIoT.Domain.Shared.Timeseries.Spindles" />
 		<Using Include="IIoT.Domain.Shared.Timeseries.Trunks" />
+		<Using Include="IIoT.Domain.Shared.Timeseries.Universals" />
 	</ItemGroup>
 
 	<ItemGroup>

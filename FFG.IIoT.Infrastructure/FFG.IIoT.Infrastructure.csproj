@@ -27,8 +27,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Builder" />
 		<Using Include="Microsoft.AspNetCore.Mvc" />
 		<Using Include="Microsoft.Extensions.Configuration" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
 		<Using Include="Microsoft.Extensions.FileProviders" />
 	</ItemGroup>
 
@@ -39,6 +41,8 @@
 		<Using Include="System.Reflection" />
 		<Using Include="System.Security.Cryptography" />
 		<Using Include="System.Text" />
+		<Using Include="System.Text.Encodings.Web" />
+		<Using Include="System.Text.Json" />
 	</ItemGroup>
 
 	<ItemGroup>

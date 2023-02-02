@@ -3,15 +3,16 @@ internal sealed class BasicRunner : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (await new PeriodicTimer(RefreshTime).WaitForNextTickAsync(stoppingToken))
+        await Basic.Transport.StartAsync();
+        while (await new PeriodicTimer(Menu.RefreshTime).WaitForNextTickAsync(stoppingToken))
         {
             try
             {
                 await Basic.InitialProfileAsync();
                 if (Basic.Profile is not null)
                 {
-                    Language = Basic.Profile.Root.Language;
-                    foreach (ITimeserieWrapper.BucketType item in Enum.GetValues(typeof(ITimeserieWrapper.BucketType)))
+                    Menu.Language = Basic.Profile.Root.Language;
+                    foreach (ITimeserieWrapper.BucketTag item in Enum.GetValues(typeof(ITimeserieWrapper.BucketTag)))
                     {
                         var name = item.GetType().GetDescription(item.ToString());
                         await Basic.InitialPoolAsync(Basic.Profile.Pool.URL, Basic.Profile.Pool.Organize, Basic.Profile.Pool.Username, Basic.Profile.Pool.Password, name);

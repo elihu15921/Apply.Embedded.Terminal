@@ -1,17 +1,14 @@
-﻿using static IIoT.Domain.Shared.Divisions.Turbos.IMaintenanceTurbo;
-using static IIoT.Domain.Shared.Functions.Hosts.IMitsubishiHost;
+﻿using static IIoT.Domain.Shared.Functions.Hosts.IMitsubishiHost;
 
 namespace IIoT.Domain.Functions.Hosts;
 internal sealed class MitsubishiHost : IMitsubishiHost
 {
     readonly IBasicExpert _basic;
     readonly ITimeserieWrapper _timeserie;
-    readonly IMaintenanceTurbo _maintenance;
-    public MitsubishiHost(IBasicExpert basic, ITimeserieWrapper timeserie, IMaintenanceTurbo maintenance)
+    public MitsubishiHost(IBasicExpert basic, ITimeserieWrapper timeserie)
     {
         _basic = basic;
         _timeserie = timeserie;
-        _maintenance = maintenance;
     }
     public async ValueTask CreateAsync(IPAddress address)
     {
@@ -25,12 +22,6 @@ internal sealed class MitsubishiHost : IMitsubishiHost
             Warship.Dispose();
         }
     }
-    public Maintenance GetMaintenance() => new()
-    {
-        Weeklies = _maintenance.MitsubishiWeeklies,
-        Monthlies = _maintenance.MitsubishiMonthlies,
-        HalfYears = _maintenance.MitsubishiHalfYears
-    };
     async ValueTask PushInformationTrunkAsync(byte[] values)
     {
         await Warship.SendAsync(values);
@@ -46,161 +37,220 @@ internal sealed class MitsubishiHost : IMitsubishiHost
     async ValueTask PushMaintanenceItemAsync(byte[] values)
     {
         await Warship.SendAsync(values);
+        var timestamp = DateTime.UtcNow;
         var buffers = _basic.BytePool.Rent(128);
         var receives = Capture(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))).ToArray();
-        _maintenance.SetMitsubishiWeekly(new[]
+        await _timeserie.MaintenanceWeekly.InsertAsync(new[]
         {
-            new MitsubishiInterval
-            {
-                ItemNo = 1,
-                CumulativeDay = receives[0]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 2,
-                CumulativeDay = receives[1]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 3,
-                CumulativeDay = receives[2]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 4,
-                CumulativeDay = receives[3]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 5,
-                CumulativeDay = receives[4]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 6,
-                CumulativeDay = receives[5]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 7,
-                CumulativeDay = receives[6]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 8,
-                CumulativeDay = receives[7]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 9,
-                CumulativeDay = receives[8]
-            }
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "1",
+               CumulativeDay = receives[0],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "2",
+               CumulativeDay = receives[1],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "3",
+               CumulativeDay = receives[2],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "4",
+               CumulativeDay = receives[3],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "5",
+               CumulativeDay = receives[4],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "6",
+               CumulativeDay = receives[5],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "7",
+               CumulativeDay = receives[6],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "8",
+               CumulativeDay = receives[7],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceWeekly.Entity
+           {
+               SerialNo = "9",
+               CumulativeDay = receives[8],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           }
         });
-        _maintenance.SetMitsubishiMonthly(new[]
+        await _timeserie.MaintenanceMonthly.InsertAsync(new[]
         {
-            new MitsubishiInterval
-            {
-                ItemNo = 1,
-                CumulativeDay = receives[9]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 2,
-                CumulativeDay = receives[10]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 3,
-                CumulativeDay = receives[11]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 4,
-                CumulativeDay = receives[12]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 5,
-                CumulativeDay = receives[13]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 6,
-                CumulativeDay = receives[14]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 7,
-                CumulativeDay = receives[15]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 8,
-                CumulativeDay = receives[16]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 9,
-                CumulativeDay = receives[17]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 10,
-                CumulativeDay = receives[18]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 11,
-                CumulativeDay = receives[19]
-            }
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "1",
+               CumulativeDay = receives[9],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "2",
+               CumulativeDay = receives[10],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "3",
+               CumulativeDay = receives[11],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "4",
+               CumulativeDay = receives[12],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "5",
+               CumulativeDay = receives[13],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "6",
+               CumulativeDay = receives[14],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "7",
+               CumulativeDay = receives[15],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "8",
+               CumulativeDay = receives[16],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "9",
+               CumulativeDay = receives[17],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "10",
+               CumulativeDay = receives[18],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceMonthly.Entity
+           {
+               SerialNo = "11",
+               CumulativeDay = receives[19],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           }
         });
-        _maintenance.SetMitsubishiHalfYear(new[]
+        await _timeserie.MaintenanceYear.InsertAsync(new[]
         {
-            new MitsubishiInterval
-            {
-                ItemNo = 1,
-                CumulativeDay = receives[20]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 2,
-                CumulativeDay = receives[21]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 3,
-                CumulativeDay = receives[22]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 4,
-                CumulativeDay = receives[23]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 5,
-                CumulativeDay = receives[24]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 6,
-                CumulativeDay = receives[25]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 7,
-                CumulativeDay = receives[26]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 8,
-                CumulativeDay = receives[27]
-            },
-            new MitsubishiInterval
-            {
-                ItemNo = 9,
-                CumulativeDay = receives[28]
-            }
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "1",
+               CumulativeDay = receives[20],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "2",
+               CumulativeDay = receives[21],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "3",
+               CumulativeDay = receives[22],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "4",
+               CumulativeDay = receives[23],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "5",
+               CumulativeDay = receives[24],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "6",
+               CumulativeDay = receives[25],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "7",
+               CumulativeDay = receives[26],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "8",
+               CumulativeDay = receives[27],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           },
+           new IMaintenanceYear.Entity
+           {
+               SerialNo = "9",
+               CumulativeDay = receives[28],
+               Identifier= string.Empty,
+               Timestamp = timestamp
+           }
         });
         _basic.BytePool.Return(buffers);
     }

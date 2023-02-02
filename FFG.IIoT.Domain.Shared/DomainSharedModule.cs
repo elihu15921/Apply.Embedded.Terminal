@@ -19,9 +19,9 @@ public sealed class DomainSharedModule : AbpModule
         Configure<AbpVirtualFileSystemOptions>(item => item.FileSets.AddEmbedded<DomainSharedModule>(Assembly.GetExecutingAssembly().GetRootNamespace()));
         Configure<AbpLocalizationOptions>(item =>
         {
-            item.Resources.Add<Fielder>(Language).AddVirtualJson($"/{string.Join("/", new string[]
+            item.Resources.Add<Fielder>(Menu.Language).AddVirtualJson($"/{string.Join("/", new string[]
             {
-                nameof(Languages), nameof(Languages.Fielders)
+                nameof(Functions.Languages), nameof(Functions.Languages.Fielders)
             })}");
         });
     }

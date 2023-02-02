@@ -6,11 +6,11 @@ public class Trunks : ControllerBase
     [HttpGet("informations", Name = nameof(GetTrunkInformation))]
     public IActionResult GetTrunkInformation()
     {
-        using (CultureHelper.Use(Language))
+        using (CultureHelper.Use(Menu.Language))
         {
             try
             {
-                return Ok(new Row
+                return Ok(new InformationRow
                 {
                     Ecomode = default,
                     MachineStatus = Latest.BasicInformation?.Status ?? default
@@ -18,13 +18,13 @@ public class Trunks : ControllerBase
             }
             catch (Exception e)
             {
-                return NotFound(e.Message);
+                return NotFound(new { e.Message });
             }
         }
     }
 
     [StructLayout(LayoutKind.Auto)]
-    public readonly record struct Row
+    public readonly record struct InformationRow
     {
         public required bool Ecomode { get; init; }
         public required int MachineStatus { get; init; }

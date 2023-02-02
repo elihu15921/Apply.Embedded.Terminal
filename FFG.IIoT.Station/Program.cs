@@ -3,9 +3,9 @@ try
     var builder = WebApplication.CreateBuilder(args);
     builder.Host.ConfigureHostOptions(item =>
     {
-        item.ShutdownTimeout = TimeSpan.FromMinutes(10);
+        item.ShutdownTimeout = TimeSpan.FromMinutes(Menu.Timeout);
     }).AddAppSettingsSecretsJson().UseAutofac().UseSerilog().UseSystemd();
-    builder.WebHost.UseKestrel(item => item.ListenAnyIP(17770));
+    builder.WebHost.UseKestrel(item => item.ListenAnyIP(Point.Entrance));
     builder.Services.AddRazorPages();
     builder.Services.AddMudServices();
     builder.Services.AddControllers();
@@ -17,6 +17,7 @@ try
         apply.UseExceptionHandler("/Error");
         apply.UseSerilogRequestLogging();
         apply.UseStaticFiles();
+        apply.UseTriggers();
         apply.UseCors();
         apply.UseRouting();
         apply.UseAuthentication();

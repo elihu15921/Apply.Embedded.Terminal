@@ -3,7 +3,7 @@ internal sealed class HostRunner : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (await new PeriodicTimer(RefreshTime).WaitForNextTickAsync(stoppingToken))
+        while (await new PeriodicTimer(Menu.RefreshTime).WaitForNextTickAsync(stoppingToken))
         {
             try
             {
@@ -13,7 +13,7 @@ internal sealed class HostRunner : BackgroundService
                     switch (Basic.Profile.Control.Type)
                     {
                         case HostType.Mitsubishi:
-                            await Turbo.Mitsubishi.CreateAsync(address);
+                            await Host.Mitsubishi.CreateAsync(address);
                             break;
                     }
                 }
@@ -31,5 +31,5 @@ internal sealed class HostRunner : BackgroundService
     }
     internal required List<string> Histories { get; init; } = new();
     public required IBasicExpert Basic { get; init; }
-    public required ITurboWrapper Turbo { get; init; }
+    public required IHostWrapper Host { get; init; }
 }

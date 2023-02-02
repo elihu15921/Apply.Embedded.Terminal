@@ -1,5 +1,5 @@
 ﻿namespace IIoT.Domain.Shared.Wrappers;
-public interface ITurboWrapper
+public interface IHostWrapper
 {
     IMitsubishiHost Mitsubishi { get; }
 }

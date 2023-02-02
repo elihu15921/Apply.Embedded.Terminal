@@ -5,7 +5,7 @@ internal sealed class MaintenanceYear : SequelExpert<IMaintenanceYear.Entity>, I
     public MaintenanceYear(IBasicExpert basic, ILatestPool latest) : base(basic) => _latest = latest;
     public async ValueTask InsertAsync(IMaintenanceYear.Entity[] entities)
     {
-        var taskAsync = WriteAsync(entities, ITimeserieWrapper.BucketType.Manage.GetDescription());
+        var taskAsync = WriteAsync(entities, ITimeserieWrapper.BucketTag.Manage.GetDescription());
         {
             _latest.Push(entities);
             await taskAsync;

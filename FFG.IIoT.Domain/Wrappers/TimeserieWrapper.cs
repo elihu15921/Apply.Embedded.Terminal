@@ -3,11 +3,24 @@
 [Volo.Abp.DependencyInjection.Dependency(ServiceLifetime.Singleton)]
 file sealed class TimeserieWrapper : ITimeserieWrapper
 {
-    public IBasicInformation BasicInformation => new BasicInformation(Basic, Latest);
+    #region Manages  
     public IMaintenanceWeekly MaintenanceWeekly => new MaintenanceWeekly(Basic, Latest);
     public IMaintenanceMonthly MaintenanceMonthly => new MaintenanceMonthly(Basic, Latest);
     public IMaintenanceYear MaintenanceYear => new MaintenanceYear(Basic, Latest);
+    #endregion
+
+    #region Spindles
     public ILifespanSpeed LifespanSpeed => new LifespanSpeed(Basic, Latest);
+    #endregion
+
+    #region Trunks
+    public IBasicInformation BasicInformation => new BasicInformation(Basic, Latest);
+    #endregion
+
+    #region Universals
+    public ITangramConnection TangramConnection => new TangramConnection(Basic, Latest);
+    #endregion
+
     public required IBasicExpert Basic { get; init; }
     public required ILatestPool Latest { get; init; }
 }

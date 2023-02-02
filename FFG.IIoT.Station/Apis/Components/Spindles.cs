@@ -6,15 +6,14 @@ public class Spindles : ControllerBase
     [HttpGet("lifespans", Name = nameof(GetSpindleLifespan))]
     public IActionResult GetSpindleLifespan()
     {
-        using (CultureHelper.Use(Language))
+        using (CultureHelper.Use(Menu.Language))
         {
             try
             {
                 List<LifespanRow.Speed> speeds = new();
-                var enums = GetDescription<ILifespanSpeed.Entity.SpeedRange>();
                 foreach (var latest in Latest.LifespanSpeeds)
                 {
-                    var (number, description) = enums.First(item => item.Key == latest.Range).Value;
+                    var (number, description) = GetDescription<ILifespanSpeed.Entity.SpeedRange>().First(item => item.Key == latest.Range).Value;
                     speeds.Add(new()
                     {
                         RangeNo = number,
@@ -28,7 +27,7 @@ public class Spindles : ControllerBase
             }
             catch (Exception e)
             {
-                return NotFound(e.Message);
+                return NotFound(new { e.Message });
             }
         }
     }

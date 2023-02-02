@@ -1,10 +1,9 @@
 ﻿namespace IIoT.Domain.Wrappers;
 
 [Volo.Abp.DependencyInjection.Dependency(ServiceLifetime.Singleton)]
-file sealed class TurboWrapper : ITurboWrapper
+file sealed class HostWrapper : IHostWrapper
 {
-    public IMitsubishiHost Mitsubishi => new MitsubishiHost(Basic, Timeserie, Maintenance);
+    public IMitsubishiHost Mitsubishi => new MitsubishiHost(Basic, Timeserie);
     public required IBasicExpert Basic { get; init; }
     public required ITimeserieWrapper Timeserie { get; init; }
-    public required IMaintenanceTurbo Maintenance { get; init; }
 }
