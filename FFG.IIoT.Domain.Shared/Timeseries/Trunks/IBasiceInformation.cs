@@ -1,9 +1,9 @@
 ﻿namespace IIoT.Domain.Shared.Timeseries.Trunks;
-public interface IBasicInformation : ISequelExpert<IBasicInformation.Entity>
+public interface IBasiceInformation : ISequelExpert<IBasiceInformation.Entity>
 {
     ValueTask InsertAsync(Entity entity);
 
-    [Measurement("informations")]
+    [Measurement("basice_informations")]
     sealed class Entity : MetaBase
     {
         public enum MachineStatus

@@ -13,256 +13,283 @@ internal sealed class MitsubishiHost : IMitsubishiHost
     public async ValueTask CreateAsync(IPAddress address)
     {
         await Warship.ConnectAsync(new IPEndPoint(address, Port));
-        await PushInformationTrunkAsync(Reader(96, 1, DeviceCode.D));
-        await PushMaintanenceItemAsync(Reader(9571, 29, DeviceCode.R));
-        await PushSpindleLifeAsync(Reader(910, 15, DeviceCode.D), Reader(9200, 30, DeviceCode.R));
+        await PushInformationTrunkAsync(ManyReader(3000, 1, DeviceCode.D));
+        await PushMaintanenceItemAsync(ManyReader(9571, 29, DeviceCode.R));
+        await PushPartEnabledStatusAsync(ManyReader(20300, 1, DeviceCode.M));
+        await PushSpindleLifeAsync(ManyReader(910, 15, DeviceCode.D), ManyReader(9200, 30, DeviceCode.R));
         {
             Warship.Shutdown(SocketShutdown.Both);
             Warship.Close();
             Warship.Dispose();
         }
     }
+    async ValueTask PushPartEnabledStatusAsync(byte[] values)
+    {
+        await Warship.SendAsync(values);
+        var buffers = _basic.BytePool.Rent(16);
+        var status = ConvertBinary(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers)));
+        _basic.BytePool.Return(buffers);
+        {
+            await _timeserie.PartStatus.InsertAsync(new()
+            {
+                Ecomode = status[0],
+                CuttingFluidMotor = status[1],
+                ChassisCleanerMotor = status[2],
+                ChipRemovalMotor = status[3],
+                ChipRemovalBackwashMotor = status[4],
+                CoolantThroughSpindleMotor = status[5],
+                PumpMotor = status[6],
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
+            });
+        }
+    }
     async ValueTask PushInformationTrunkAsync(byte[] values)
     {
         await Warship.SendAsync(values);
         var buffers = _basic.BytePool.Rent(16);
-        var receives = Capture(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))).ToArray();
-        await _timeserie.BasicInformation.InsertAsync(new()
+        var receives = ConvertDecimal(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))).ToArray();
+        _basic.BytePool.Return(buffers);
         {
-            Status = receives[0],
-            Identifier = string.Empty,
-            Timestamp = DateTime.UtcNow
-        });
+            await _timeserie.BasiceInformation.InsertAsync(new()
+            {
+                Status = receives[0],
+                Identifier = string.Empty,
+                Timestamp = DateTime.UtcNow
+            });
+        }
     }
     async ValueTask PushMaintanenceItemAsync(byte[] values)
     {
         await Warship.SendAsync(values);
         var timestamp = DateTime.UtcNow;
         var buffers = _basic.BytePool.Rent(128);
-        var receives = Capture(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))).ToArray();
-        await _timeserie.MaintenanceWeekly.InsertAsync(new[]
-        {
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "1",
-               CumulativeDay = receives[0],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "2",
-               CumulativeDay = receives[1],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "3",
-               CumulativeDay = receives[2],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "4",
-               CumulativeDay = receives[3],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "5",
-               CumulativeDay = receives[4],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "6",
-               CumulativeDay = receives[5],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "7",
-               CumulativeDay = receives[6],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "8",
-               CumulativeDay = receives[7],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceWeekly.Entity
-           {
-               SerialNo = "9",
-               CumulativeDay = receives[8],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           }
-        });
-        await _timeserie.MaintenanceMonthly.InsertAsync(new[]
-        {
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "1",
-               CumulativeDay = receives[9],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "2",
-               CumulativeDay = receives[10],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "3",
-               CumulativeDay = receives[11],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "4",
-               CumulativeDay = receives[12],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "5",
-               CumulativeDay = receives[13],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "6",
-               CumulativeDay = receives[14],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "7",
-               CumulativeDay = receives[15],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "8",
-               CumulativeDay = receives[16],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "9",
-               CumulativeDay = receives[17],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "10",
-               CumulativeDay = receives[18],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceMonthly.Entity
-           {
-               SerialNo = "11",
-               CumulativeDay = receives[19],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           }
-        });
-        await _timeserie.MaintenanceYear.InsertAsync(new[]
-        {
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "1",
-               CumulativeDay = receives[20],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "2",
-               CumulativeDay = receives[21],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "3",
-               CumulativeDay = receives[22],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "4",
-               CumulativeDay = receives[23],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "5",
-               CumulativeDay = receives[24],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "6",
-               CumulativeDay = receives[25],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "7",
-               CumulativeDay = receives[26],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "8",
-               CumulativeDay = receives[27],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           },
-           new IMaintenanceYear.Entity
-           {
-               SerialNo = "9",
-               CumulativeDay = receives[28],
-               Identifier= string.Empty,
-               Timestamp = timestamp
-           }
-        });
+        var receives = ConvertDecimal(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers))).ToArray();
         _basic.BytePool.Return(buffers);
+        {
+            await _timeserie.MaintenanceWeekly.InsertAsync(new[]
+            {
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "1",
+                    CumulativeDay = receives[0],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "2",
+                    CumulativeDay = receives[1],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "3",
+                    CumulativeDay = receives[2],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "4",
+                    CumulativeDay = receives[3],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "5",
+                    CumulativeDay = receives[4],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "6",
+                    CumulativeDay = receives[5],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "7",
+                    CumulativeDay = receives[6],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "8",
+                    CumulativeDay = receives[7],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceWeekly.Entity
+                {
+                    SerialNo = "9",
+                    CumulativeDay = receives[8],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                }
+            });
+            await _timeserie.MaintenanceMonthly.InsertAsync(new[]
+            {
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "1",
+                    CumulativeDay = receives[9],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "2",
+                    CumulativeDay = receives[10],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "3",
+                    CumulativeDay = receives[11],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "4",
+                    CumulativeDay = receives[12],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "5",
+                    CumulativeDay = receives[13],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "6",
+                    CumulativeDay = receives[14],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "7",
+                    CumulativeDay = receives[15],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "8",
+                    CumulativeDay = receives[16],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "9",
+                    CumulativeDay = receives[17],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "10",
+                    CumulativeDay = receives[18],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceMonthly.Entity
+                {
+                    SerialNo = "11",
+                    CumulativeDay = receives[19],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                }
+            });
+            await _timeserie.MaintenanceYear.InsertAsync(new[]
+            {
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "1",
+                    CumulativeDay = receives[20],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "2",
+                    CumulativeDay = receives[21],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "3",
+                    CumulativeDay = receives[22],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "4",
+                    CumulativeDay = receives[23],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "5",
+                    CumulativeDay = receives[24],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "6",
+                    CumulativeDay = receives[25],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "7",
+                    CumulativeDay = receives[26],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "8",
+                    CumulativeDay = receives[27],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                },
+                new IMaintenanceYear.Entity
+                {
+                    SerialNo = "9",
+                    CumulativeDay = receives[28],
+                    Identifier= string.Empty,
+                    Timestamp = timestamp
+                }
+            });
+        }
     }
     async ValueTask PushSpindleLifeAsync(byte[] flashes, byte[] keeps)
     {
         await Warship.SendAsync(flashes);
         var flasheBuffers = _basic.BytePool.Rent(64);
-        var flasheReceives = Capture(BitConverter.ToString(flasheBuffers, default, await Warship.ReceiveAsync(flasheBuffers))).ToArray();
+        var flasheReceives = ConvertDecimal(BitConverter.ToString(flasheBuffers, default, await Warship.ReceiveAsync(flasheBuffers))).ToArray();
         _basic.BytePool.Return(flasheBuffers);
         await Warship.SendAsync(keeps);
         var keepBuffers = _basic.BytePool.Rent(128);
-        var keepReceives = Capture(BitConverter.ToString(keepBuffers, default, await Warship.ReceiveAsync(keepBuffers))).ToArray();
+        var keepReceives = ConvertDecimal(BitConverter.ToString(keepBuffers, default, await Warship.ReceiveAsync(keepBuffers))).ToArray();
         _basic.BytePool.Return(keepBuffers);
         await _timeserie.LifespanSpeed.InsertAsync(new[]
         {
@@ -403,7 +430,7 @@ internal sealed class MitsubishiHost : IMitsubishiHost
             }
         });
     }
-    byte[] Reader(int serialNo, int length, DeviceCode code) => HexBytes(new ReadText
+    byte[] ManyReader(int serialNo, int length, DeviceCode code) => HexBytes(new ReadText
     {
         Fixed = FixedPart.FixedHead,
         Timer = FixedPart.DataTimer,
@@ -423,15 +450,22 @@ internal sealed class MitsubishiHost : IMitsubishiHost
             return results;
         }
     }
-    static IEnumerable<int> Capture(string receive)
+    static IEnumerable<int> ConvertDecimal(string receive)
     {
         var low = string.Empty;
-        var bytes = receive.Split('-').Skip(11).ToArray();
+        var bytes = PullBody(receive);
         for (int item = default; item < bytes.Length; item++)
         {
             if (item % 2 is 0) low = bytes[item];
             else yield return Convert.ToInt32($"{bytes[item]}{low}", 16);
         }
     }
+    static byte[] ConvertBinary(string receive)
+    {
+        var bytes = PullBody(receive);
+        return Convert.ToString(int.Parse($"{bytes[1]}{bytes[0]}"), 2).PadRight(16, '0').ToCharArray().Select(item =>
+        byte.Parse(item.ToString())).ToArray();
+    }
+    static string[] PullBody(string receive) => receive.Split('-').Skip(11).ToArray();
     Socket Warship { get; } = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 }

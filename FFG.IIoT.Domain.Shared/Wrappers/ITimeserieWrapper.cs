@@ -20,7 +20,8 @@ public interface ITimeserieWrapper
     #endregion
 
     #region Trunks
-    IBasicInformation BasicInformation { get; }
+    IBasiceInformation BasiceInformation { get; }
+    IPartStatus PartStatus { get; }
     #endregion
 
     #region Universals

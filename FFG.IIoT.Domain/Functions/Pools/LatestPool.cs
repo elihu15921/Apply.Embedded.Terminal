@@ -2,8 +2,10 @@
 internal sealed class LatestPool : ILatestPool
 {
     #region Foundations
-    public void Push(IBasicInformation.Entity entity) => BasicInformation = entity;
-    public IBasicInformation.Entity? BasicInformation { get; private set; }
+    public void Push(IBasiceInformation.Entity entity) => BasiceInformation = entity;
+    public void Push(IPartStatus.Entity entity) => PartStatus = entity;
+    public IBasiceInformation.Entity? BasiceInformation { get; private set; }
+    public IPartStatus.Entity? PartStatus { get; private set; }
     #endregion
 
     #region Manages
@@ -17,7 +19,9 @@ internal sealed class LatestPool : ILatestPool
 
     #region Components
     public void Push(ILifespanSpeed.Entity[] entities) => LifespanSpeeds = entities;
+    public void Push(IThermalCompensation.Entity entity) => ThermalCompensation = entity;
     public ILifespanSpeed.Entity[] LifespanSpeeds { get; private set; } = Array.Empty<ILifespanSpeed.Entity>();
+    public IThermalCompensation.Entity? ThermalCompensation { get; private set; }
     #endregion
 
     #region Externals

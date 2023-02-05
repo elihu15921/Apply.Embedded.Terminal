@@ -12,8 +12,14 @@ public class Trunks : ControllerBase
             {
                 return Ok(new InformationRow
                 {
-                    Ecomode = default,
-                    MachineStatus = Latest.BasicInformation?.Status ?? default
+                    MachineStatus = Latest.BasiceInformation?.Status ?? default,
+                    Ecomode = Latest.PartStatus?.Ecomode is 1,
+                    CuttingFluidMotor = Latest.PartStatus?.CuttingFluidMotor is 1,
+                    ChassisCleanerMotor = Latest.PartStatus?.ChassisCleanerMotor is 1,
+                    ChipRemovalMotor = Latest.PartStatus?.ChipRemovalMotor is 1,
+                    ChipRemovalBackwashMotor = Latest.PartStatus?.ChipRemovalBackwashMotor is 1,
+                    CoolantThroughSpindleMotor = Latest.PartStatus?.CoolantThroughSpindleMotor is 1,
+                    PumpMotor = Latest.PartStatus?.PumpMotor is 1
                 });
             }
             catch (Exception e)
@@ -26,8 +32,14 @@ public class Trunks : ControllerBase
     [StructLayout(LayoutKind.Auto)]
     public readonly record struct InformationRow
     {
-        public required bool Ecomode { get; init; }
         public required int MachineStatus { get; init; }
+        public required bool Ecomode { get; init; }
+        public required bool CuttingFluidMotor { get; init; }
+        public required bool ChassisCleanerMotor { get; init; }
+        public required bool ChipRemovalMotor { get; init; }
+        public required bool ChipRemovalBackwashMotor { get; init; }
+        public required bool CoolantThroughSpindleMotor { get; init; }
+        public required bool PumpMotor { get; init; }
     }
     public required ILatestPool Latest { get; init; }
 }

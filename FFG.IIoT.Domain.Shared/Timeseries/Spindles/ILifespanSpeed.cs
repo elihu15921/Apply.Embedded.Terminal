@@ -3,7 +3,7 @@ public interface ILifespanSpeed : ISequelExpert<ILifespanSpeed.Entity>
 {
     ValueTask InsertAsync(Entity[] entities);
 
-    [Measurement("lifespans")]
+    [Measurement("speed_losses")]
     sealed class Entity : MetaBase
     {
         public enum SpeedRange

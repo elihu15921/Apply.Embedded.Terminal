@@ -3,7 +3,7 @@ public sealed class MessageQueue : IEntranceTrigger
 {
     public ValueTask BuildAsync()
     {
-        Basic.Transport.InterceptingPublishAsync += @event => Task.Run(async () =>
+        Basic.Transport.InterceptingPublishAsync += @event => Task.Run(() =>
         {
             try
             {
@@ -11,6 +11,23 @@ public sealed class MessageQueue : IEntranceTrigger
                 var text = Encoding.UTF8.GetString(@event.ApplicationMessage.Payload);
                 switch (paths.Length)
                 {
+                    case 1:
+                        switch (paths[0])
+                        {
+                            case var item when item.Equals(IInteriorQueue.Model.VTM415, StringComparison.OrdinalIgnoreCase):
+
+                                break;
+
+                            case var item when item.Equals(IInteriorQueue.Model.VUX400, StringComparison.OrdinalIgnoreCase):
+
+                                break;
+
+                            case var item when item.Equals(IInteriorQueue.Model.UCT600, StringComparison.OrdinalIgnoreCase):
+
+                                break;
+                        }
+                        break;
+
                     case 4:
                         switch (paths[0])
                         {
@@ -32,7 +49,7 @@ public sealed class MessageQueue : IEntranceTrigger
                                                     case var item when item.Equals(ITangramQueue.Label.Connection, StringComparison.OrdinalIgnoreCase):
                                                         {
                                                             var meta = text.ToObject<ITangramConnection.Entity.Meta>();
-                                                            if (!string.IsNullOrEmpty(meta.TangramId)) await Queue.Tangram.PushAsync(meta);
+                                                            if (!string.IsNullOrEmpty(meta.TangramId)) Queue.Tangram.Push(meta);
                                                         }
                                                         break;
 

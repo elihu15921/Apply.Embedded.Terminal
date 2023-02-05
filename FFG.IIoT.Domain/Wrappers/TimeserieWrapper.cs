@@ -14,7 +14,8 @@ file sealed class TimeserieWrapper : ITimeserieWrapper
     #endregion
 
     #region Trunks
-    public IBasicInformation BasicInformation => new BasicInformation(Basic, Latest);
+    public IBasiceInformation BasiceInformation => new BasiceInformation(Basic, Latest);
+    public IPartStatus PartStatus => new PartStatus(Basic, Latest);
     #endregion
 
     #region Universals

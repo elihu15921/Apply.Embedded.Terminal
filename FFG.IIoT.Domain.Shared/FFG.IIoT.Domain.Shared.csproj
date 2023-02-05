@@ -81,4 +81,8 @@
 		<Using Include="IIoT.Infrastructure.Utilities.ProcessUtility" Static="true" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Accessories\Events\" />
+	</ItemGroup>
+
 </Project>

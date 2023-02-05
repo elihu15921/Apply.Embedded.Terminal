@@ -2,8 +2,10 @@
 public interface ILatestPool
 {
     #region Foundations
-    void Push(IBasicInformation.Entity entity);
-    IBasicInformation.Entity? BasicInformation { get; }
+    void Push(IBasiceInformation.Entity entity);
+    void Push(IPartStatus.Entity entity);
+    IBasiceInformation.Entity? BasiceInformation { get; }
+    IPartStatus.Entity? PartStatus { get; }
     #endregion
 
     #region Manages
@@ -17,7 +19,9 @@ public interface ILatestPool
 
     #region Components
     void Push(ILifespanSpeed.Entity[] entities);
+    void Push(IThermalCompensation.Entity entity);
     ILifespanSpeed.Entity[] LifespanSpeeds { get; }
+    IThermalCompensation.Entity? ThermalCompensation { get; }
     #endregion
 
     #region Externals
