@@ -3,7 +3,7 @@ internal sealed class HostRunner : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (await new PeriodicTimer(Menu.RefreshTime).WaitForNextTickAsync(stoppingToken))
+        while (await new PeriodicTimer(TimeSpan.FromSeconds(10)).WaitForNextTickAsync(stoppingToken))
         {
             try
             {

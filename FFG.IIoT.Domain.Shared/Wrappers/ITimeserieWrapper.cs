@@ -17,6 +17,7 @@ public interface ITimeserieWrapper
 
     #region Spindles
     ILifespanSpeed LifespanSpeed { get; }
+    IThermalCompensation ThermalCompensation { get; }
     #endregion
 
     #region Trunks

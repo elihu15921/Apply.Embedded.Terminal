@@ -5,7 +5,8 @@ public interface IThermalCompensation : ISequelExpert<IThermalCompensation.Entit
 
     [Measurement("thermal_compensations")]
     sealed class Entity : MetaBase
-    {        
+    {
+        [Column("device_name", IsTag = true)] public required string DeviceName { get; init; }
         [Column("thermal_first")] public required float ThermalFirst { get; init; }
         [Column("thermal_second")] public required float ThermalSecond { get; init; }
         [Column("thermal_third")] public required float ThermalThird { get; init; }

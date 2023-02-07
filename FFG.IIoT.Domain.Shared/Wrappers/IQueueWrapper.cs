@@ -3,4 +3,5 @@ public interface IQueueWrapper
 {
     IIcpdasQueue Icpdas { get; }
     ITangramQueue Tangram { get; }
+    IInteriorQueue Interior { get; }
 }

@@ -24,7 +24,7 @@ public abstract class SequelExpert<T> : ISequelExpert<T> where T : ISequelExpert
             await result.GetWriteApiAsync().WriteMeasurementsAsync(metas, WritePrecision.Ns, bucket, Organize);
         }
     }
-    public T[] Read(string bucket, string identifier, DateTimeOffset startTime, DateTimeOffset endTime)
+    public T[] Read(in string bucket, string identifier, DateTimeOffset startTime, DateTimeOffset endTime)
     {
         if (URL is not null && Username is not null && Password is not null && Organize is not null)
         {

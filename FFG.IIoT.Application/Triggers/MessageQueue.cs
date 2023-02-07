@@ -15,15 +15,15 @@ public sealed class MessageQueue : IEntranceTrigger
                         switch (paths[0])
                         {
                             case var item when item.Equals(IInteriorQueue.Model.VTM415, StringComparison.OrdinalIgnoreCase):
-
+                                Queue.Interior.Push(IInteriorQueue.Model.VTM415, text);
                                 break;
 
                             case var item when item.Equals(IInteriorQueue.Model.VUX400, StringComparison.OrdinalIgnoreCase):
-
+                                Queue.Interior.Push(IInteriorQueue.Model.VUX400, text);
                                 break;
 
                             case var item when item.Equals(IInteriorQueue.Model.UCT600, StringComparison.OrdinalIgnoreCase):
-
+                                Queue.Interior.Push(IInteriorQueue.Model.UCT600, text);
                                 break;
                         }
                         break;

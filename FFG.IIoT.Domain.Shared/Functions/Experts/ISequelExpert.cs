@@ -3,7 +3,7 @@ public interface ISequelExpert<T> where T : ISequelExpert<T>.MetaBase
 {
     ValueTask WriteAsync(T meta, string bucket);
     ValueTask WriteAsync(T[] metas, string bucket);
-    T[] Read(string bucket, string identifier, DateTimeOffset startTime, DateTimeOffset endTime);
+    T[] Read(in string bucket, string identifier, DateTimeOffset startTime, DateTimeOffset endTime);
     abstract class MetaBase
     {
         [Column(IsTimestamp = true)] public required DateTime Timestamp { get; init; }

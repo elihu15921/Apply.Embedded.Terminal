@@ -11,6 +11,7 @@ file sealed class TimeserieWrapper : ITimeserieWrapper
 
     #region Spindles
     public ILifespanSpeed LifespanSpeed => new LifespanSpeed(Basic, Latest);
+    public IThermalCompensation ThermalCompensation => new ThermalCompensation(Basic, Latest);
     #endregion
 
     #region Trunks
