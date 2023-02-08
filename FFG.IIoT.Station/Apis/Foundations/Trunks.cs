@@ -6,7 +6,7 @@ public class Trunks : ControllerBase
     [HttpGet("informations", Name = nameof(GetTrunkInformation))]
     public IActionResult GetTrunkInformation()
     {
-        using (CultureHelper.Use(Menu.Language))
+        using (CultureHelper.Use(Local.Language))
         {
             try
             {

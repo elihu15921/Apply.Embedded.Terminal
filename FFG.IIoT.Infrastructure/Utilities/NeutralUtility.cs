@@ -4,7 +4,7 @@ public static class NeutralUtility
     public static string UseEncryptAES(this string text)
     {
         using var aes = Aes.Create();
-        using var encryptor = aes.CreateEncryptor(Encoding.UTF8.GetBytes(Passkey.ToMd5()), aes.IV);
+        using var encryptor = aes.CreateEncryptor(Encoding.UTF8.GetBytes(nameof(IIoT).ToMd5()), aes.IV);
         {
             using MemoryStream msEncrypt = new();
             using (CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write))
@@ -28,7 +28,7 @@ public static class NeutralUtility
         Buffer.BlockCopy(fullCipher, iv.Length, cipher, default, fullCipher.Length - iv.Length);
         {
             using var aes = Aes.Create();
-            using var decryptor = aes.CreateDecryptor(Encoding.UTF8.GetBytes(Passkey.ToMd5()), iv);
+            using var decryptor = aes.CreateDecryptor(Encoding.UTF8.GetBytes(nameof(IIoT).ToMd5()), iv);
             using MemoryStream msDecrypt = new(cipher);
             using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
             using StreamReader srDecrypt = new(csDecrypt);
@@ -39,7 +39,7 @@ public static class NeutralUtility
     {
         YamlSource source = new()
         {
-            Path = Path.Combine(Menu.RootDirectory, $"{Passkey.ToMd5()}.yml"),
+            Path = Menu.ProfilePath,
             FileProvider = null,
             Optional = default,
             ReloadOnChange = default
@@ -52,15 +52,14 @@ public static class NeutralUtility
     }
     public static async ValueTask CreateFileAaync<T>(this T entity, bool cover = default)
     {
-        var path = Path.Combine(Menu.RootDirectory, $"{Passkey.ToMd5()}.yml");
-        if ((!File.Exists(path) || cover) && entity is not null)
+        if ((!File.Exists(Menu.ProfilePath) || cover) && entity is not null)
         {
-            await File.WriteAllTextAsync(path, new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build().Serialize(entity), Encoding.UTF8);
+            await File.WriteAllTextAsync(Menu.ProfilePath, new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build().Serialize(entity), Encoding.UTF8);
         }
     }
     public static void UseTriggers(this IApplicationBuilder app) => Array.ForEach(app.ApplicationServices.GetRequiredService<IEntranceTrigger[]>(), item => Task.Run(() => item.BuildAsync()));
     public static string Joint(this string front, string latter = "", string tag = ".") => $"{front}{tag}{latter}";
-    public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace(nameof(FFG).Joint(), string.Empty);
+    public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace("FFG".Joint(), string.Empty);
     public static string GetDescription(this Type type, string name) => type.GetRuntimeField(name)!.GetCustomAttribute<DescriptionAttribute>()!.Description;
     public static string GetDescription(this Enum @enum) => @enum.GetType().GetRuntimeField(@enum.ToString())!.GetCustomAttribute<DescriptionAttribute>()!.Description;
     public static IDictionary<string, (int number, string description)> GetDescription<T>()

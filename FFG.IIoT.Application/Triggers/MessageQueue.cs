@@ -70,7 +70,7 @@ public sealed class MessageQueue : IEntranceTrigger
             }
             catch (Exception e)
             {
-                Log.Error(HistoryFoot.Title, nameof(Basic.Transport.InterceptingPublishAsync), new { e.Message });
+                Log.Error(Menu.Title, nameof(Basic.Transport.InterceptingPublishAsync), new { e.Message });
             }
         });
         return ValueTask.CompletedTask;

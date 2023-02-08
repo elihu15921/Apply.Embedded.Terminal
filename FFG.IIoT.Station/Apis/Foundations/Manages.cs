@@ -6,7 +6,7 @@ public class Manages : ControllerBase
     [HttpGet("maintenances", Name = nameof(GetManageMaintenance))]
     public IActionResult GetManageMaintenance([FromQuery] Query query)
     {
-        using (CultureHelper.Use(Menu.Language))
+        using (CultureHelper.Use(Local.Language))
         {
             try
             {

@@ -18,18 +18,20 @@ internal sealed class HostRunner : BackgroundService
                     }
                 }
                 if (Histories.Any()) Histories.Clear();
+                System.PushHostRunner(new DateTime());
             }
             catch (Exception e)
             {
                 if (!Histories.Contains(e.Message))
                 {
                     Histories.Add(e.Message);
-                    Log.Fatal(HistoryFoot.Title, nameof(HostRunner), new { e.Message });
+                    Log.Fatal(Menu.Title, nameof(HostRunner), new { e.Message });
                 }
             }
         }
     }
     internal required List<string> Histories { get; init; } = new();
     public required IBasicExpert Basic { get; init; }
+    public required ISystemPool System { get; init; }
     public required IHostWrapper Host { get; init; }
 }

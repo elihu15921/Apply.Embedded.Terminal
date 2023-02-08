@@ -6,7 +6,7 @@ public class Spindles : ControllerBase
     [HttpGet("lifespans", Name = nameof(GetSpindleLifespan))]
     public IActionResult GetSpindleLifespan()
     {
-        using (CultureHelper.Use(Menu.Language))
+        using (CultureHelper.Use(Local.Language))
         {
             try
             {

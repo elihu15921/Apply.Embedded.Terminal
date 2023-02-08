@@ -52,6 +52,7 @@
 		<Using Include="IIoT.Domain.Shared.Functions.Experts" />
 		<Using Include="IIoT.Domain.Shared.Functions.Experts.IBasicExpert" Static="true" />
 		<Using Include="IIoT.Domain.Shared.Functions.Hosts" />
+		<Using Include="IIoT.Domain.Shared.Functions.Pools" />
 		<Using Include="IIoT.Domain.Shared.Timeseries.Spindles" />
 		<Using Include="IIoT.Domain.Shared.Timeseries.Universals" />
 		<Using Include="IIoT.Domain.Shared.Wrappers" />

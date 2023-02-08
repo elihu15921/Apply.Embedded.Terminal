@@ -3,7 +3,7 @@ internal sealed class BasicExpert : IBasicExpert
 {
     public BasicExpert()
     {
-        Transport = new MqttFactory().CreateMqttServer(new MqttServerOptionsBuilder().WithDefaultEndpoint().WithDefaultEndpointPort(Point.Broker).Build());
+        Transport = new MqttFactory().CreateMqttServer(new MqttServerOptionsBuilder().WithDefaultEndpoint().WithDefaultEndpointPort(Local.Broker).Build());
     }
     public async ValueTask InitialProfileAsync()
     {
@@ -15,7 +15,7 @@ internal sealed class BasicExpert : IBasicExpert
         }
         catch (Exception e)
         {
-            Log.Fatal(HistoryFoot.Title, nameof(BasicExpert).Joint(nameof(InitialProfileAsync)), new
+            Log.Fatal(Menu.Title, nameof(BasicExpert).Joint(nameof(InitialProfileAsync)), new
             {
                 e.Message,
                 e.StackTrace
@@ -29,7 +29,7 @@ internal sealed class BasicExpert : IBasicExpert
         if (entity is null)
         {
             var organizations = await result.GetOrganizationsApi().FindOrganizationsAsync(org: organize);
-            BucketRetentionRules rule = new(BucketRetentionRules.TypeEnum.Expire, 100 * HistoryFoot.DayToSeconds);
+            BucketRetentionRules rule = new(BucketRetentionRules.TypeEnum.Expire, 100 * Local.DayToSeconds);
             await result.GetBucketsApi().CreateBucketAsync(bucket, rule, organizations[default].Id);
         }
     }

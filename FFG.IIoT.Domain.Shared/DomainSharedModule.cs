@@ -13,13 +13,13 @@ public sealed class DomainSharedModule : AbpModule
         .MinimumLevel.Override("Volo.Abp.Core", LogEventLevel.Error)
         .MinimumLevel.Override("Volo.Abp.Autofac", LogEventLevel.Error)
         .MinimumLevel.Override("Volo.Abp.AspNetCore", LogEventLevel.Error)
-        .WriteTo.File(Path.Combine(HistoryFoot.Location, "Systems", "sys-.log"),
+        .WriteTo.File(Path.Combine(Menu.HistoryPath, "Systems", "sys-.log"),
         outputTemplate: "[{Timestamp:HH:mm:ss.fff} {Level:u3}] {Message:lj}{Exception}{NewLine}",
-        rollingInterval: RollingInterval.Day, retainedFileCountLimit: HistoryFoot.RetentionDay).CreateLogger();
+        rollingInterval: RollingInterval.Day, retainedFileCountLimit: Local.RetentionDay).CreateLogger();
         Configure<AbpVirtualFileSystemOptions>(item => item.FileSets.AddEmbedded<DomainSharedModule>(Assembly.GetExecutingAssembly().GetRootNamespace()));
         Configure<AbpLocalizationOptions>(item =>
         {
-            item.Resources.Add<Fielder>(Menu.Language).AddVirtualJson($"/{string.Join("/", new string[]
+            item.Resources.Add<Fielder>(Local.Language).AddVirtualJson($"/{string.Join("/", new string[]
             {
                 nameof(Functions.Languages), nameof(Functions.Languages.Fielders)
             })}");

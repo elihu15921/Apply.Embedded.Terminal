@@ -35,7 +35,7 @@ internal sealed class AppModule : AbpModule
             };
         }).AddNewtonsoftJson(item =>
         {
-            item.SerializerSettings.DateFormatString = HistoryFoot.DateFormat;
+            item.SerializerSettings.DateFormatString = Menu.DateFormat;
             item.SerializerSettings.NullValueHandling = NullValueHandling.Include;
         }).AddMvcOptions(item => item.Conventions.Add(new ModelConvention())).AddControllersAsServices();
     }

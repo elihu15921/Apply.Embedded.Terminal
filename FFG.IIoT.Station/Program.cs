@@ -3,9 +3,9 @@ try
     var builder = WebApplication.CreateBuilder(args);
     builder.Host.ConfigureHostOptions(item =>
     {
-        item.ShutdownTimeout = TimeSpan.FromMinutes(Menu.Timeout);
+        item.ShutdownTimeout = TimeSpan.FromMinutes(Local.Timeout);
     }).AddAppSettingsSecretsJson().UseAutofac().UseSerilog().UseSystemd();
-    builder.WebHost.UseKestrel(item => item.ListenAnyIP(Point.Entrance));
+    builder.WebHost.UseKestrel(item => item.ListenAnyIP(Local.Entrance));
     builder.Services.AddRazorPages();
     builder.Services.AddMudServices();
     builder.Services.AddControllers();
@@ -31,7 +31,7 @@ try
 }
 catch (Exception e)
 {
-    Log.Fatal(HistoryFoot.Title, nameof(Program), new
+    Log.Fatal(Menu.Title, nameof(Program), new
     {
         e.Message,
         e.StackTrace
