@@ -12,8 +12,8 @@ public class Systems : ControllerBase
             {
                 return Ok(new RunnerRow
                 {
-                    Basic = System.BasicRunnerTimestamp,
-                    Host = System.HostRunnerTimestamp
+                    Basic = System.BasicRunnerTimestamp.AddHours(8),
+                    Host = System.HostRunnerTimestamp.AddHours(8)
                 });
             }
             catch (Exception e)

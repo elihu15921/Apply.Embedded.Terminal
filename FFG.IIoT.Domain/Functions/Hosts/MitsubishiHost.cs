@@ -9,19 +9,16 @@ internal sealed class MitsubishiHost : IMitsubishiHost
     {
         _basic = basic;
         _timeserie = timeserie;
+        Warship = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
     }
-    public async ValueTask CreateAsync(IPAddress address)
+    public async ValueTask CreateAsync(IPAddress address, CancellationToken cancellationToken)
     {
-        await Warship.ConnectAsync(new IPEndPoint(address, Port));
+        await Warship.ConnectAsync(new IPEndPoint(address, Port), cancellationToken);
         await PushInformationTrunkAsync(ManyReader(3000, 1, DeviceCode.D));
         await PushMaintanenceItemAsync(ManyReader(9571, 29, DeviceCode.R));
         await PushPartEnabledStatusAsync(ManyReader(20300, 1, DeviceCode.M));
         await PushSpindleLifeAsync(ManyReader(910, 15, DeviceCode.D), ManyReader(9200, 30, DeviceCode.R));
-        {
-            Warship.Shutdown(SocketShutdown.Both);
-            Warship.Close();
-            Warship.Dispose();
-        }
+        Dispose();
     }
     async ValueTask PushPartEnabledStatusAsync(byte[] values)
     {
@@ -467,5 +464,22 @@ internal sealed class MitsubishiHost : IMitsubishiHost
         byte.Parse(item.ToString())).ToArray();
     }
     static string[] PullBody(string receive) => receive.Split('-').Skip(11).ToArray();
-    Socket Warship { get; } = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+    void Dispose()
+    {
+        if (!DisposedValue)
+        {
+            Warship.Shutdown(SocketShutdown.Both);
+            Warship.Close();
+            Warship.Dispose();
+            DisposedValue = true;
+        }
+    }
+    void IDisposable.Dispose()
+    {
+        Dispose();
+        GC.SuppressFinalize(this);
+    }
+    ~MitsubishiHost() => Dispose();
+    Socket Warship { get; init; }
+    bool DisposedValue { get; set; }
 }

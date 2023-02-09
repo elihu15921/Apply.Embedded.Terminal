@@ -3,7 +3,7 @@ try
     var builder = WebApplication.CreateBuilder(args);
     builder.Host.ConfigureHostOptions(item =>
     {
-        item.ShutdownTimeout = TimeSpan.FromMinutes(Local.Timeout);
+        item.ShutdownTimeout = Menu.Timeout;
     }).AddAppSettingsSecretsJson().UseAutofac().UseSerilog().UseSystemd();
     builder.WebHost.UseKestrel(item => item.ListenAnyIP(Local.Entrance));
     builder.Services.AddRazorPages();

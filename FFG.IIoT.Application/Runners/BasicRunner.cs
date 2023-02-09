@@ -4,7 +4,7 @@ internal sealed class BasicRunner : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await Basic.Transport.StartAsync();
-        while (await new PeriodicTimer(Local.RefreshTime).WaitForNextTickAsync(stoppingToken))
+        while (await new PeriodicTimer(Menu.RefreshTime).WaitForNextTickAsync(stoppingToken))
         {
             try
             {
@@ -19,7 +19,7 @@ internal sealed class BasicRunner : BackgroundService
                     }
                 }
                 if (Histories.Any()) Histories.Clear();
-                System.PushBasicRunner(new DateTime());
+                System.PushBasicRunner(DateTime.UtcNow);
             }
             catch (Exception e)
             {

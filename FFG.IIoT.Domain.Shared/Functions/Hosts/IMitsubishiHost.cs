@@ -1,8 +1,8 @@
 ﻿namespace IIoT.Domain.Shared.Functions.Hosts;
-public interface IMitsubishiHost
+public interface IMitsubishiHost : IDisposable
 {
     const int Port = 30000;
-    ValueTask CreateAsync(IPAddress address);
+    ValueTask CreateAsync(IPAddress address, CancellationToken cancellationToken);
     enum DeviceCode
     {
         [Description("90")] M,
