@@ -10,6 +10,7 @@ try
     builder.Services.AddMudServices();
     builder.Services.AddControllers();
     builder.Services.AddServerSideBlazor();
+    builder.Services.AddAuthenticationCore();
     builder.Services.AddEndpointsApiExplorer();
     await builder.AddApplicationAsync<AppModule>();
     var apply = builder.Build();

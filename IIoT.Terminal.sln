@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFG.IIoT.Domain.Shared", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFG.IIoT.Infrastructure", "FFG.IIoT.Infrastructure\FFG.IIoT.Infrastructure.csproj", "{523B0C41-ACEC-4B63-BBCC-7F7A0DC67C97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFG.IIoT.Station", "FFG.IIoT.Station\FFG.IIoT.Station.csproj", "{2B9340DA-21BC-49FC-A995-0C734B0A8246}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFG.IIoT.Station", "FFG.IIoT.Station\FFG.IIoT.Station.csproj", "{2B9340DA-21BC-49FC-A995-0C734B0A8246}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

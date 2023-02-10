@@ -44,12 +44,15 @@
 
 	<ItemGroup>
 		<Using Include="Microsoft.AspNetCore.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Components" />
+		<Using Include="Microsoft.AspNetCore.Components.Authorization" />
 		<Using Include="Microsoft.AspNetCore.Components.Web" />
 		<Using Include="Microsoft.AspNetCore.Cors" />
 		<Using Include="Microsoft.AspNetCore.Mvc" />
 		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
 		<Using Include="Microsoft.AspNetCore.Mvc.RazorPages" />
 		<Using Include="Microsoft.Extensions.Localization" />
+		<Using Include="Microsoft.JSInterop" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -62,6 +65,7 @@
 	<ItemGroup>
 		<Using Include="IIoT.Application" />
 		<Using Include="IIoT.Application.Services" />
+		<Using Include="IIoT.Application.Verifiers" />
 	</ItemGroup>
 
 	<ItemGroup>

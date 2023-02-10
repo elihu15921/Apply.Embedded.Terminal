@@ -24,6 +24,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Components.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage" />
 		<Using Include="Microsoft.AspNetCore.Http" />
 		<Using Include="Microsoft.AspNetCore.Mvc" />
 		<Using Include="Microsoft.AspNetCore.Mvc.ApplicationModels" />
@@ -38,6 +40,7 @@
 		<Using Include="System.Net" />
 		<Using Include="System.Net.Sockets" />
 		<Using Include="System.Reflection" />
+		<Using Include="System.Security.Claims" />
 		<Using Include="System.Text" />
 	</ItemGroup>
 
@@ -45,6 +48,7 @@
 		<Using Include="IIoT.Application.Contract" />
 		<Using Include="IIoT.Application.Runners" />
 		<Using Include="IIoT.Application.Triggers" />
+		<Using Include="IIoT.Application.Verifiers" />
 	</ItemGroup>
 
 	<ItemGroup>
