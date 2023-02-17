@@ -3,9 +3,13 @@ public interface ILatestPool
 {
     #region Foundations
     void Push(in IBasiceInformation.Entity entity);
+    void Push(in IAlarmStatus.Entity entity);
     void Push(in IPartStatus.Entity entity);
+    void Push(in IFixtureStatus.Entity entity);
     IBasiceInformation.Entity? BasiceInformation { get; }
+    IAlarmStatus.Entity? AlarmStatus { get; }
     IPartStatus.Entity? PartStatus { get; }
+    IFixtureStatus.Entity? FixtureStatus { get; }
     #endregion
 
     #region Manages

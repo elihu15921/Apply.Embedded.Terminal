@@ -3,9 +3,9 @@ public partial class Index
 {
     async Task DisplayGreetingAlert()
     {
-        var authState = await authenticationState;
-        var message = $"Hello {authState.User.Identity.Name}";
+        var authState = await AuthenticationState;
+        var message = $"Hello {authState.User.Identity?.Name}";
         await js.InvokeVoidAsync("alert", message);
     }
-    [CascadingParameter] Task<AuthenticationState> authenticationState { get; set; }
+    [CascadingParameter] Task<AuthenticationState> AuthenticationState { get; set; }
 }

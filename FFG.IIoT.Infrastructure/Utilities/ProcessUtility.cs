@@ -20,7 +20,7 @@ public static class ProcessUtility
     }
     public ref struct Label
     {
-        public static string Username => "ffg";
+        public static string UserName => "ffg";
         public static string Organize => "FFG-iMDS";
         public static string Passkey => "qEm6ssYVjmvgvOoPYS3EYJdbZRqrH/RgfSJ5M9/7gvA=";
     }

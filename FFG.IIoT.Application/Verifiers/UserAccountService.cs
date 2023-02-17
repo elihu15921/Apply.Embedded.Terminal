@@ -10,5 +10,5 @@ public class UserAccountService
             new UserAccount{ UserName = "user", Password = "user", Role = "User" }
         };
     }
-    public UserAccount? GetByUserName(string userName) => _users.Find(item => item.UserName == userName);
+    public UserAccount? GetByUserName(string? userName) => _users.Find(item => item.UserName == userName);
 }

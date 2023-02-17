@@ -22,9 +22,9 @@ internal sealed class BasicExpert : IBasicExpert
             });
         }
     }
-    public async ValueTask InitialPoolAsync(string url, string organize, string username, string password, string bucket)
+    public async ValueTask InitialPoolAsync(string url, string organize, string userName, string password, string bucket)
     {
-        using var result = new InfluxDBClient(url, username, password);
+        using var result = new InfluxDBClient(url, userName, password);
         var entity = await result.GetBucketsApi().FindBucketByNameAsync(bucket);
         if (entity is null)
         {

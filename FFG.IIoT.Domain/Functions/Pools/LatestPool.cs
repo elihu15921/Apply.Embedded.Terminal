@@ -3,9 +3,13 @@ internal sealed class LatestPool : ILatestPool
 {
     #region Foundations
     public void Push(in IBasiceInformation.Entity entity) => BasiceInformation = entity;
+    public void Push(in IAlarmStatus.Entity entity) => AlarmStatus = entity;
     public void Push(in IPartStatus.Entity entity) => PartStatus = entity;
+    public void Push(in IFixtureStatus.Entity entity) => FixtureStatus = entity;
     public IBasiceInformation.Entity? BasiceInformation { get; private set; }
+    public IAlarmStatus.Entity? AlarmStatus { get; private set; }
     public IPartStatus.Entity? PartStatus { get; private set; }
+    public IFixtureStatus.Entity? FixtureStatus { get; private set; }
     #endregion
 
     #region Manages

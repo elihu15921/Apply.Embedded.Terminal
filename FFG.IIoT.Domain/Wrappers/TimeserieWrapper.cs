@@ -17,6 +17,7 @@ file sealed class TimeserieWrapper : ITimeserieWrapper
     #region Trunks
     public IBasiceInformation BasiceInformation => new BasiceInformation(Basic, Latest);
     public IPartStatus PartStatus => new PartStatus(Basic, Latest);
+    public IFixtureStatus FixtureStatus => new FixtureStatus(Basic, Latest);
     #endregion
 
     #region Universals
@@ -25,4 +26,5 @@ file sealed class TimeserieWrapper : ITimeserieWrapper
 
     public required IBasicExpert Basic { get; init; }
     public required ILatestPool Latest { get; init; }
+
 }

@@ -21,20 +21,20 @@ public class FanucUtility
     /* Error Codes */
     public enum focas_ret
     {
-        EW_PROTOCOL = (-17),           /* protocol error */
-        EW_SOCKET = (-16),           /* Windows socket error */
-        EW_NODLL = (-15),           /* DLL not exist error */
-        EW_BUS = (-11),           /* bus error */
-        EW_SYSTEM2 = (-10),           /* system error */
-        EW_HSSB = (-9),           /* hssb communication error */
-        EW_HANDLE = (-8),           /* Windows library handle error */
-        EW_VERSION = (-7),           /* CNC/PMC version missmatch */
-        EW_UNEXP = (-6),           /* abnormal error */
-        EW_SYSTEM = (-5),           /* system error */
-        EW_PARITY = (-4),           /* shared RAM parity error */
-        EW_MMCSYS = (-3),           /* emm386 or mmcsys install error */
-        EW_RESET = (-2),           /* reset or stop occured error */
-        EW_BUSY = (-1),           /* busy error */
+        EW_PROTOCOL = -17,           /* protocol error */
+        EW_SOCKET = -16,           /* Windows socket error */
+        EW_NODLL = -15,           /* DLL not exist error */
+        EW_BUS = -11,           /* bus error */
+        EW_SYSTEM2 = -10,           /* system error */
+        EW_HSSB = -9,           /* hssb communication error */
+        EW_HANDLE = -8,           /* Windows library handle error */
+        EW_VERSION = -7,           /* CNC/PMC version missmatch */
+        EW_UNEXP = -6,           /* abnormal error */
+        EW_SYSTEM = -5,           /* system error */
+        EW_PARITY = -4,           /* shared RAM parity error */
+        EW_MMCSYS = -3,           /* emm386 or mmcsys install error */
+        EW_RESET = -2,           /* reset or stop occured error */
+        EW_BUSY = -1,           /* busy error */
         EW_OK = 0,           /* no problem */
         EW_FUNC = 1,           /* command prepare error */
         EW_NOPMC = 1,           /* pmc not exist */
@@ -92,8 +92,7 @@ public class FanucUtility
     {
         public short datano;     /* spindle number */
         public short type;       /* dummy */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public int[] data;       /* spindle data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public int[] data;       /* spindle data */
     }
 
     /* cnc_absolute:read absolute axis position */
@@ -110,22 +109,17 @@ public class FanucUtility
     {
         public short dummy;  /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] data;      /* data value */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] data;      /* data value */
     }
 
     /* cnc_rddynamic:read all dynamic data */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class FAXIS
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] absolute;    /* absolute position */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] machine;     /* machine position */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] relative;    /* relative position */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] distance;    /* distance to go */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] absolute;    /* absolute position */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] machine;     /* machine position */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] relative;    /* relative position */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] distance;    /* distance to go */
     }
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class OAXIS
@@ -147,7 +141,7 @@ public class FanucUtility
         public int seqnum;    /* current sequence number */
         public int actf;      /* actual feedrate */
         public int acts;      /* actual spindle speed */
-        public FAXIS pos = new FAXIS();
+        public FAXIS pos = new();
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
@@ -161,7 +155,7 @@ public class FanucUtility
         public int seqnum;    /* current sequence number */
         public int actf;      /* actual feedrate */
         public int acts;      /* actual spindle speed */
-        public OAXIS pos = new OAXIS();
+        public OAXIS pos = new();
     }
 #else
     [StructLayout(LayoutKind.Sequential, Pack=4)]
@@ -204,7 +198,7 @@ public class FanucUtility
         public int seqnum;    /* current sequence number */
         public int actf;      /* actual feedrate */
         public int acts;      /* actual spindle speed */
-        public FAXIS pos = new FAXIS();
+        public FAXIS pos = new();
     }
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBDY2_2
@@ -217,7 +211,7 @@ public class FanucUtility
         public int seqnum;     /* current sequence number */
         public int actf;       /* actual feedrate */
         public int acts;       /* actual spindle speed */
-        public OAXIS pos = new OAXIS(); /* In case of 1 axis  */
+        public OAXIS pos = new(); /* In case of 1 axis  */
     }
 
     /* cnc_wrrelpos:set origin / preset relative axis position */
@@ -226,8 +220,7 @@ public class FanucUtility
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] data = new int[MAX_AXIS];   /* preset data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]        public int[] data = new int[MAX_AXIS];   /* preset data */
     }
 
     /* cnc_prstwkcd:preset work coordinate */
@@ -236,8 +229,7 @@ public class FanucUtility
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] data = new int[MAX_AXIS];   /* preset data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]        public int[] data = new int[MAX_AXIS];   /* preset data */
     }
 
     /* cnc_rdmovrlap:read manual overlapped motion value */
@@ -246,8 +238,7 @@ public class FanucUtility
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2 * MAX_AXIS)]
-        public int[] data;   /* data value:[2][MAX_AXIS] */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2 * MAX_AXIS)]        public int[] data;   /* data value:[2][MAX_AXIS] */
     }
 
     /* cnc_rdspload:read load information of serial spindle */
@@ -258,8 +249,7 @@ public class FanucUtility
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public short[] data;   /* preset data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]        public short[] data;   /* preset data */
     }
 
     /* cnc_rdposition:read tool position */
@@ -335,14 +325,14 @@ public class FanucUtility
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBPOS
     {
-        public POSELMALL p1 = new POSELMALL();
-        public POSELMALL p2 = new POSELMALL();
-        public POSELMALL p3 = new POSELMALL();
-        public POSELMALL p4 = new POSELMALL();
-        public POSELMALL p5 = new POSELMALL();
-        public POSELMALL p6 = new POSELMALL();
-        public POSELMALL p7 = new POSELMALL();
-        public POSELMALL p8 = new POSELMALL();
+        public POSELMALL p1 = new();
+        public POSELMALL p2 = new();
+        public POSELMALL p3 = new();
+        public POSELMALL p4 = new();
+        public POSELMALL p5 = new();
+        public POSELMALL p6 = new();
+        public POSELMALL p7 = new();
+        public POSELMALL p8 = new();
         // In case of 8 axes.
         // if you need the more information, you must be add the member.
     }
@@ -352,8 +342,8 @@ public class FanucUtility
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBHND_data
     {
-        public POSELM input = new POSELM();   /* input unit */
-        public POSELM output = new POSELM();  /* output unit */
+        public POSELM input = new();   /* input unit */
+        public POSELM output = new();  /* output unit */
     }
 #if M_AXIS2
     [StructLayout(LayoutKind.Sequential,Pack=4)]
@@ -407,14 +397,14 @@ public class FanucUtility
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBHND
     {
-        public ODBHND_data p1 = new ODBHND_data();
-        public ODBHND_data p2 = new ODBHND_data();
-        public ODBHND_data p3 = new ODBHND_data();
-        public ODBHND_data p4 = new ODBHND_data();
-        public ODBHND_data p5 = new ODBHND_data();
-        public ODBHND_data p6 = new ODBHND_data();
-        public ODBHND_data p7 = new ODBHND_data();
-        public ODBHND_data p8 = new ODBHND_data();
+        public ODBHND_data p1 = new();
+        public ODBHND_data p2 = new();
+        public ODBHND_data p3 = new();
+        public ODBHND_data p4 = new();
+        public ODBHND_data p5 = new();
+        public ODBHND_data p6 = new();
+        public ODBHND_data p7 = new();
+        public ODBHND_data p8 = new();
         // In case of 8 axes.
         // if you need the more information, you must be add the member.
     }
@@ -435,8 +425,8 @@ public class FanucUtility
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBSPEED
     {
-        public SPEEDELM actf = new SPEEDELM();   /* actual feed rate */
-        public SPEEDELM acts = new SPEEDELM();   /* actual spindle speed */
+        public SPEEDELM actf = new();   /* actual feed rate */
+        public SPEEDELM acts = new();   /* actual spindle speed */
     }
 
     /* cnc_rdsvmeter:read servo load meter */

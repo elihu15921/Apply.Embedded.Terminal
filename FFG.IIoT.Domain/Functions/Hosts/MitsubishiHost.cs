@@ -468,8 +468,11 @@ internal sealed class MitsubishiHost : IMitsubishiHost
     {
         if (!DisposedValue)
         {
-            Warship.Shutdown(SocketShutdown.Both);
-            Warship.Close();
+            if (Warship.Connected)
+            {
+                Warship.Shutdown(SocketShutdown.Both);
+                Warship.Close();
+            }
             Warship.Dispose();
             DisposedValue = true;
         }

@@ -7,7 +7,7 @@ internal sealed class YamlProvider : FileConfigurationProvider
         YamlStream yamlStream = new();
         Stack<string> stackContext = new();
         yamlStream.Load(new StreamReader(stream));
-        SortedDictionary<string, string?> data = new SortedDictionary<string, string?>(StringComparer.Ordinal);
+        SortedDictionary<string, string?> data = new(StringComparer.Ordinal);
         if (yamlStream.Documents.Count > 0) VisitYamlNode(string.Empty, yamlStream.Documents[default].RootNode);
         void VisitYamlNode(string context, YamlNode node)
         {

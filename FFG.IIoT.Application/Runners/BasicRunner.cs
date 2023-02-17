@@ -15,7 +15,7 @@ internal sealed class BasicRunner : BackgroundService
                     foreach (ITimeserieWrapper.BucketTag item in Enum.GetValues(typeof(ITimeserieWrapper.BucketTag)))
                     {
                         var name = item.GetType().GetDescription(item.ToString());
-                        await Basic.InitialPoolAsync(Basic.Profile.Pool.URL, Basic.Profile.Pool.Organize, Basic.Profile.Pool.Username, Basic.Profile.Pool.Password, name);
+                        await Basic.InitialPoolAsync(Basic.Profile.Pool.URL, Basic.Profile.Pool.Organize, Basic.Profile.Pool.UserName, Basic.Profile.Pool.Password, name);
                     }
                 }
                 if (Histories.Any()) Histories.Clear();

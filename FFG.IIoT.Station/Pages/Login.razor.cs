@@ -3,13 +3,12 @@ public partial class Login
 {
     async Task Authenticate()
     {
-        var userAccount = userAccountService.GetByUserName(model.UserName);
-        if (userAccount is null || userAccount.Password != model.Password)
+        var userAccount = userAccountService.GetByUserName(Model?.UserName);
+        if (userAccount is null || userAccount.Password != Model?.Password)
         {
             await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
             return;
         }
-
         var customAuthStateProvider = (CustomStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession
         {
@@ -18,10 +17,10 @@ public partial class Login
         });
         navManager.NavigateTo("/", forceLoad: true);
     }
-    class Model
+    class Request
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
     }
-    Model model = new Model();
+    Request Model { get; set; } = new();
 }
